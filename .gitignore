@@ -19,3 +19,29 @@
 
 # Unity3D Generated File On Crash Reports
 sysinfo.txt
+
+Assets/Fonts/
+
+Assets/Materials/
+
+Assets/Textures/
+
+Assets/Fonts\.meta
+
+Assets/Materials\.meta
+
+Assets/Prefabs\.meta
+
+Assets/Scenes\.meta
+
+Assets/Scripts\.meta
+
+Assets/Textures\.meta
+
+Packages/manifest\.json
+
+ProjectSettings/
+
+\.vscode/
+
+Assets/Prefabs/
