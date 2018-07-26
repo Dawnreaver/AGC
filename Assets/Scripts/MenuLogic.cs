@@ -73,6 +73,8 @@ public class MenuLogic : MonoBehaviour
 	public Button m_attackButton;
 	public Button m_reinforcementButton;
 
+	// Win Lose Panel
+
 
 	void Awake() 
 	{
