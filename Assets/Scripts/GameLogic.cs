@@ -582,14 +582,27 @@ public class GameLogic : MonoBehaviour
 
 		if ( defender == 0 )
 		{	
+			int defenderPlayerID = defendedTerritory.m_playerId; 
 			if(m_debug)
 			Debug.Log(attacker);
 			if(m_debug)
 			Debug.Log("Conquered territory!");
 			defendedTerritory.m_armyCount = attacker;
+			// broadcast message if that the player was defeated
+			defendedTerritory.m_playerId = attackingTerritory.m_playerId;
+			if(IsPlayerDefeated(defenderPlayerID))
+			{
+				m_menuLogic.m_uiNotification.text = "Player "+defendedTerritory.m_playerId+" was defeated.";
+				Debug.Log("Player "+defenderPlayerID+" was defeated.");
+				// check if we won the game
+				if(DidPlayerWin(attackingTerritory.m_playerId))
+				{
+					Debug.Log("Player "+attackingTerritory.m_playerId+" won the game!");
+					Debug.Log("Break out of the funktion...");
+				}
+			}
 			defendedTerritory.m_playerId = attackingTerritory.m_playerId;
 			defendedTerritory.ConquerTile(attackingTerritory.m_factionMaterial);
-			SelectPlayerTerritories();
 			PrepareNextAttack();
 			
 		}
@@ -626,10 +639,32 @@ public class GameLogic : MonoBehaviour
 		m_menuLogic.DisableArmySlider();
 		DeselectAttackableTerritories();
 	}
-
-	public void DefeatedPlayer()
+	// check if the player was defeated
+	bool IsPlayerDefeated(int playerIndex)
 	{
-		// check if a player lost
+		bool playerLost = true;
+		for ( int a = 0; a < m_territories.Count; a++)
+		{
+			if(m_territories[a].GetComponent<BaseTile>().m_playerId == playerIndex)
+			{
+				playerLost = false;
+			}
+		}
+		return playerLost;
+	}
+	// check if the player won the game
+	bool DidPlayerWin(int playerIndex)
+	{
+		bool playerWin = true;
+		for ( int b = 0; b < m_territories.Count; b++)
+		{
+			if(m_territories[b].GetComponent<BaseTile>().m_playerId != playerIndex)
+			{
+				playerWin = false;
+			}
+		}
+
+		return playerWin;
 	}
 
 	public void WinLooseGame()
