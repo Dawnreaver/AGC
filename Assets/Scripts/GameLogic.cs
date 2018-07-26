@@ -605,6 +605,11 @@ public class GameLogic : MonoBehaviour
 			if(m_debug)
 			Debug.Log("Attack failed!");
 			m_menuLogic.SetArmySlider();
+			if(m_selectedTeritorry.m_armyCount == 1)
+			{
+				m_menuLogic.DisableArmySlider();
+				m_menuLogic.DisableTargetTerritoryPanel();
+			}
 		}
 	}
 

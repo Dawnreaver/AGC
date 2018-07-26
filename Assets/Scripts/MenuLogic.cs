@@ -66,7 +66,10 @@ public class MenuLogic : MonoBehaviour
 	public int m_armySliderAmmount;
 
 	// Target Panel
-
+	public Text m_targetPanelNameText;
+	public Text m_targetTerritoryNameText;
+	public Text m_targetTerritoryResourceText;
+	public Text m_targetTerritoryArmyCountText;
 	public Button m_attackButton;
 	public Button m_reinforcementButton;
 
@@ -272,7 +275,6 @@ public class MenuLogic : MonoBehaviour
 				m_removeArmiesButton.interactable = false; 
 			}
 		}
-		
 	}
 
 	void UpdateTurnButton()
@@ -295,20 +297,40 @@ public class MenuLogic : MonoBehaviour
 			{
 				m_targetTerritoryPanel.SetActive(true);
 
+				m_targetTerritoryNameText.text = m_gameLogic.m_targetTerritory.m_territoryName;
+				m_targetTerritoryArmyCountText.text = ""+m_gameLogic.m_targetTerritory.m_armyCount;
+
 				switch(m_gameLogic.m_turnPhase)
 				{
 					case TurnPhases.Attack :
-						m_attackButton.gameObject.SetActive(true);
+
+						m_targetPanelNameText.text = "Attack Territory";
+						if(m_gameLogic.m_selectedTeritorry.m_armyCount >1)
+						{
+							m_attackButton.gameObject.SetActive(true);
+						}
+						else
+						{
+							m_attackButton.gameObject.SetActive(false);
+						}
 						m_reinforcementButton.gameObject.SetActive(false);
 					break;
 
 					case TurnPhases.Movement :
+						m_targetPanelNameText.text = "Move To Territory";
+
 						m_attackButton.gameObject.SetActive(false);
-						m_reinforcementButton.gameObject.SetActive(true);
+						if(m_gameLogic.m_selectedTeritorry.m_armyCount >1)
+						{
+							m_reinforcementButton.gameObject.SetActive(true);
+						}
+						else
+						{
+							m_reinforcementButton.gameObject.SetActive(false);
+						}
 					break;
 				}
 			}
-
 		}
 		else
 		{
@@ -338,8 +360,11 @@ public class MenuLogic : MonoBehaviour
 
 	public void EnableArmySlider()
 	{
-		m_armySliderUIElement.SetActive(true);
-		SetArmySlider();
+		if(m_gameLogic.m_selectedTeritorry.m_armyCount > 1)
+		{
+			m_armySliderUIElement.SetActive(true);
+			SetArmySlider();
+		}
 	}
 
 	public void DisableArmySlider()
@@ -352,9 +377,11 @@ public class MenuLogic : MonoBehaviour
 		if(m_gameLogic.m_targetTerritory != null)
 		{
 			m_armySlider.maxValue = m_gameLogic.m_selectedTeritorry.GetComponent<BaseTile>().m_armyCount-1;
-			Debug.Log(m_armySlider.maxValue);
 			m_armySlider.minValue = 1;
-			m_armySlider.value = 1;
+			if(m_armySlider.value > m_gameLogic.m_selectedTeritorry.GetComponent<BaseTile>().m_armyCount-1)
+			{
+				m_armySlider.value = m_gameLogic.m_selectedTeritorry.GetComponent<BaseTile>().m_armyCount-1;
+			}
 		}
 	}
 
@@ -363,5 +390,4 @@ public class MenuLogic : MonoBehaviour
 		m_armySliderText.text = ""+m_armySlider.value;
 		m_armySliderAmmount = (int)m_armySlider.value;
 	}
-
 }
