@@ -176,7 +176,6 @@ public class GameLogic : MonoBehaviour
 			Debug.Log("SelectMovementTerritory called");
 			m_targetTerritory = null;
 			m_menuLogic.DisableArmySlider();
-			//DeselectMoveableTerritories();
 		}
 	}
 
@@ -398,10 +397,8 @@ public class GameLogic : MonoBehaviour
 		{
 			if(m_territories[a].GetComponent<BaseTile>().m_playerId != m_playerIndex)
 			{
-				//float dist = Vector3.Distance(m_selectedTeritorry.transform.position, m_territories[a].transform.position);
 				if(Vector3.Distance(m_selectedTeritorry.transform.position, m_territories[a].transform.position) <= m_attackReach)
 				{
-					//Debug.Log("Distance to: "+m_territories[a].name +" = "+ dist)
 					m_attackableTerritories.Add(m_territories[a]);
 				}
 			}
@@ -433,7 +430,6 @@ public class GameLogic : MonoBehaviour
 		}
 		else
 		{
-			//recruitedArmies = (int)Mathf.Floor(m_playerTerritories.Count / m_armieRecruitmentFactor);
 			recruitedArmies = m_playerTerritories.Count / m_armieRecruitmentFactor;
 		}
 		return recruitedArmies;
@@ -525,8 +521,8 @@ public class GameLogic : MonoBehaviour
 		yield return new WaitForSeconds(time);
 		AdvanceTurnOrder();
 	}
-	// Helper functions
-	// this funktion only works if the dfault value is one
+
+	// this function only works if the dfault value is 1
 	int IncreaseValue(int value, int max)
 	{
 		value++;
@@ -559,7 +555,7 @@ public class GameLogic : MonoBehaviour
 		{
 			int attackRoll = Random.Range(1,7);
 			int defendRoll = Random.Range(1,7);
-			// add bonuses for both sides (maybe as a helper function?)
+			// TODO add bonuses for both sides (maybe as a helper function?)
 			if(m_debug)
 			Debug.Log("Defender: "+defendRoll+" Attacker: "+attackRoll);
 			if(attackRoll > defendRoll)
@@ -576,8 +572,6 @@ public class GameLogic : MonoBehaviour
 			else if(attackRoll <= defendRoll)
 			{
 				attacker--;
-				//attackingTerritory.m_armyCount--;
-				//attackingTerritory.SetUnitCount();
 				if(attacker == 0)
 				{
 					break;
@@ -595,7 +589,6 @@ public class GameLogic : MonoBehaviour
 			defendedTerritory.m_armyCount = attacker;
 			defendedTerritory.m_playerId = attackingTerritory.m_playerId;
 			defendedTerritory.ConquerTile(attackingTerritory.m_factionMaterial);
-			// gather player territories
 			SelectPlayerTerritories();
 			PrepareNextAttack();
 			
@@ -619,6 +612,7 @@ public class GameLogic : MonoBehaviour
 		Debug.Log("Clicked reinforcement");
 		m_selectedTeritorry.m_armyCount -= reinforcement;
 		m_targetTerritory.m_armyCount += reinforcement;
+		
 		m_targetTerritory.SetUnitCount();
 		m_selectedTeritorry.SetUnitCount();
 
