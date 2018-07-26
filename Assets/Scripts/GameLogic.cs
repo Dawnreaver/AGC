@@ -633,5 +633,13 @@ public class GameLogic : MonoBehaviour
 		DeselectAttackableTerritories();
 	}
 
-	//Test Git
+	public void DefeatedPlayer()
+	{
+		// check if a player lost
+	}
+
+	public void WinLooseGame()
+	{
+		// check if the game was won or lost
+	}
 }
