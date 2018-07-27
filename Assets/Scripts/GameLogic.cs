@@ -603,6 +603,7 @@ public class GameLogic : MonoBehaviour
 			}
 			defendedTerritory.m_playerId = attackingTerritory.m_playerId;
 			defendedTerritory.ConquerTile(attackingTerritory.m_factionMaterial);
+			SelectPlayerTerritories();
 			PrepareNextAttack();
 			
 		}
