@@ -305,18 +305,21 @@ public class GameLogic : MonoBehaviour
 				case 4 :
 					DeselectTerritories();
 					SetActivePlayer();
-					/*if(m_factionList[m_playerIndex].m_isDefeated ==1) // if the new player is defeated, loop back 
+					if(m_factionList[m_playerIndex-1].m_isDefeated ==1) // if the new player is defeated, loop back 
 					{
-						m_turnOrder = 4;
+						//Debug.Log("Skipping Player "+ m_playerIndex);
+						m_turnPhase = TurnPhases.Movement;
 						AdvanceTurnOrder();
+						return; // without the return, the else appears to be performed too, leading to skipping a phase e.g. recruitment
 					}
 					else
-					{*/
+					{
+						//Debug.Log("Player "+ m_playerIndex+" is still in game");
 						m_menuLogic.SetNotification("Player "+m_playerIndex+" turn.");
 						StartCoroutine("AutoAdvanceTurn",0.5f);
 						m_turnPhase = TurnPhases.Idle;
 						m_menuLogic.SetPhaseIcon();
-					//}
+					}
 				break;
 			}
 			m_turnOrder = IncreaseValue(m_turnOrder, 4);
@@ -338,9 +341,8 @@ public class GameLogic : MonoBehaviour
 					SetArmies();
 					SetActivePlayer();
 					m_menuLogic.SetNotification("Player "+m_playerIndex+" turn.");
-					if(GameSetupCheck()) // Check if the game setup is complete
+					if(GameSetupCheck())
 					{
-						// move to the main game phase
 						SetGamePhaseIndex(2);
 					}
 					m_menuLogic.SetPhaseIcon();
@@ -602,7 +604,7 @@ public class GameLogic : MonoBehaviour
 			if(IsPlayerDefeated(defenderPlayerID))
 			{
 				m_menuLogic.m_uiNotification.text = "Player "+defenderPlayerID+" was defeated.";
-				Debug.Log("Player "+defenderPlayerID+" was defeated.");
+				//Debug.Log("Player "+defenderPlayerID+" was defeated.");
 				m_factionList[defenderPlayerID-1].m_isDefeated = 1;//Set the player to defeated
 				//m_factionList.RemoveAt(defenderPlayerID-1);
 				// check if we won the game
