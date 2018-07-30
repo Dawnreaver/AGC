@@ -305,10 +305,18 @@ public class GameLogic : MonoBehaviour
 				case 4 :
 					DeselectTerritories();
 					SetActivePlayer();
-					m_menuLogic.SetNotification("Player "+m_playerIndex+" turn.");
-					StartCoroutine("AutoAdvanceTurn",0.5f);
-					m_turnPhase = TurnPhases.Idle;
-					m_menuLogic.SetPhaseIcon();
+					/*if(m_factionList[m_playerIndex].m_isDefeated ==1) // if the new player is defeated, loop back 
+					{
+						m_turnOrder = 4;
+						AdvanceTurnOrder();
+					}
+					else
+					{*/
+						m_menuLogic.SetNotification("Player "+m_playerIndex+" turn.");
+						StartCoroutine("AutoAdvanceTurn",0.5f);
+						m_turnPhase = TurnPhases.Idle;
+						m_menuLogic.SetPhaseIcon();
+					//}
 				break;
 			}
 			m_turnOrder = IncreaseValue(m_turnOrder, 4);
@@ -367,6 +375,7 @@ public class GameLogic : MonoBehaviour
 	public void SetActivePlayer()
 	{
 		m_playerIndex = IncreaseValue(m_playerIndex, m_factions);
+
 	}
 
 	void SelectPlayerTerritories()
@@ -592,8 +601,10 @@ public class GameLogic : MonoBehaviour
 			defendedTerritory.m_playerId = attackingTerritory.m_playerId;
 			if(IsPlayerDefeated(defenderPlayerID))
 			{
-				m_menuLogic.m_uiNotification.text = "Player "+defendedTerritory.m_playerId+" was defeated.";
+				m_menuLogic.m_uiNotification.text = "Player "+defenderPlayerID+" was defeated.";
 				Debug.Log("Player "+defenderPlayerID+" was defeated.");
+				m_factionList[defenderPlayerID-1].m_isDefeated = 1;//Set the player to defeated
+				//m_factionList.RemoveAt(defenderPlayerID-1);
 				// check if we won the game
 				if(DidPlayerWin(attackingTerritory.m_playerId))
 				{
