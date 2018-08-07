@@ -612,6 +612,7 @@ public class GameLogic : MonoBehaviour
 				{
 					Debug.Log("Player "+attackingTerritory.m_playerId+" won the game!");
 					m_menuLogic.SetWinLoosePanel();
+					DeselectTerritories();
 					Debug.Log("Break out of the funktion...");
 				}
 			}

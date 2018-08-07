@@ -407,4 +407,12 @@ public class MenuLogic : MonoBehaviour
 		m_inGameUi.SetActive(false);
 		m_mainMenuScreen.SetActive(true);
 	}
+	public void EnableTurnButton()
+	{
+		m_turnButton.SetActive(true);
+	}
+	public void DisableTurnButton()
+	{
+		m_turnButton.SetActive(false);
+	}
 }
