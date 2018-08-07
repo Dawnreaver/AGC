@@ -611,6 +611,7 @@ public class GameLogic : MonoBehaviour
 				if(DidPlayerWin(attackingTerritory.m_playerId))
 				{
 					Debug.Log("Player "+attackingTerritory.m_playerId+" won the game!");
+					m_menuLogic.SetWinLoosePanel();
 					Debug.Log("Break out of the funktion...");
 				}
 			}

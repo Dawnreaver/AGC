@@ -75,7 +75,7 @@ public class MenuLogic : MonoBehaviour
 
 	// Win Lose Panel
 
-
+	public GameObject m_winLoosePanel;
 	void Awake() 
 	{
 		m_raycaster = GetComponent<GraphicRaycaster>();
@@ -391,5 +391,20 @@ public class MenuLogic : MonoBehaviour
 	{
 		m_armySliderText.text = ""+m_armySlider.value;
 		m_armySliderAmmount = (int)m_armySlider.value;
+	}
+
+	public void SetWinLoosePanel()
+	{
+		if(!m_winLoosePanel.activeSelf)
+		{
+			m_winLoosePanel.SetActive(true);
+		}
+	}
+
+	public void BackToMainMenu()
+	{
+		m_winLoosePanel.SetActive(false);
+		m_inGameUi.SetActive(false);
+		m_mainMenuScreen.SetActive(true);
 	}
 }
