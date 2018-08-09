@@ -406,6 +406,7 @@ public class MenuLogic : MonoBehaviour
 		m_winLoosePanel.SetActive(false);
 		m_inGameUi.SetActive(false);
 		m_mainMenuScreen.SetActive(true);
+		DisableTurnButton();
 	}
 	public void EnableTurnButton()
 	{
