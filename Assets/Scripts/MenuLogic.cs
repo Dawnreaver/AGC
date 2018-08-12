@@ -7,20 +7,16 @@ using UnityEngine.EventSystems;
 public class MenuLogic : MonoBehaviour 
 {
 	public GameLogic m_gameLogic;
-
 	// variables fpr graphicscasting
-
 	GraphicRaycaster m_raycaster;
 	PointerEventData m_pointerEventData;
 	EventSystem m_eventSystem;
-
 	public GameObject m_mainMenuScreen;
 	public GameObject m_createNewGameScreen;
 
 	// Loading Screen Variables
 	public GameObject m_loadingScreen;
 	public Slider m_loadingBar;
-
 	public float m_maxLoadingTime = 4.0f;
 	float m_loadingTime = 0.0f;
 	public bool m_loadingGame = false;
@@ -28,38 +24,30 @@ public class MenuLogic : MonoBehaviour
 	// In game menu variables
 	public GameObject m_inGameUi; 
 	public Text m_uiNotification;
-
 	public GameObject m_selectedTerritoryPanel;
-
 	public GameObject m_targetTerritoryPanel;
-
 	public Button m_removeArmiesButton;
 	public Button m_addArmiesButton;
 
 	// information displayed
-
-	public Text m_territoryNameText;
-	public Text m_numberOfArmiesText;
+	public Text m_selectedTerritoryNameText;
+	public Text m_selectedTeritorryResourceText;
+	public Text m_selectedTeritorryNumberOfArmiesText;
 	
 	// turn button
 	public GameObject m_turnButton;
-
-
 	public List<Sprite> m_turnPhaseSprites = new List<Sprite>();
 	public Image m_turnPhaseIndicator;
+
 	// Use this for initialization
-
 	public List<GameObject> m_uiPlayers = new List<GameObject>();
-
 	public GameObject m_addUIPlayerButton;
 
 	// PlayerTurn Indicator
-
 	public Image m_playerTurnIndicatorBackground;
 	public Image m_playerTurnIndicatorIcon;
 
 	// Armyslider 
-
 	public GameObject m_armySliderUIElement;
 	public Slider m_armySlider;
 	public Text m_armySliderText;
@@ -74,7 +62,6 @@ public class MenuLogic : MonoBehaviour
 	public Button m_reinforcementButton;
 
 	// Win Lose Panel
-
 	public GameObject m_winLoosePanel;
 	void Awake() 
 	{
@@ -222,8 +209,17 @@ public class MenuLogic : MonoBehaviour
 
 	public void UpdateStatusPanel()
 	{
-		m_numberOfArmiesText.text = ""+(m_gameLogic.m_selectedTeritorry.m_armyCount+m_gameLogic.m_selectedTeritorry.m_tempArmyCount);
-		m_territoryNameText.text = m_gameLogic.m_selectedTeritorry.m_territoryName;
+		m_selectedTeritorryNumberOfArmiesText.text = ""+(m_gameLogic.m_selectedTeritorry.m_armyCount+m_gameLogic.m_selectedTeritorry.m_tempArmyCount);
+		m_selectedTerritoryNameText.text = m_gameLogic.m_selectedTeritorry.m_territoryName;
+		if(m_gameLogic.m_selectedTeritorry.m_resource1 != ResourceTypes.Empty)
+		{
+			m_selectedTeritorryResourceText.text = ""+m_gameLogic.m_selectedTeritorry.m_resource1.ToString();
+		}
+		else
+		{
+			m_selectedTeritorryResourceText.text = "";
+		}
+		
 
 		if(m_gameLogic.m_turnPhase == TurnPhases.Recruitment)
 		{
@@ -281,7 +277,7 @@ public class MenuLogic : MonoBehaviour
 
 	void UpdateTurnButton()
 	{
-		if(m_gameLogic.m_turnOrder == 1)
+		if(m_gameLogic.m_turnOrder == 1 || m_gameLogic.m_gamePhase == GamePhases.InMenues)
 		{
 			m_turnButton.SetActive(false);
 		}
@@ -398,6 +394,7 @@ public class MenuLogic : MonoBehaviour
 		if(!m_winLoosePanel.activeSelf)
 		{
 			m_winLoosePanel.SetActive(true);
+			DisableTurnButton();
 		}
 	}
 
@@ -406,7 +403,7 @@ public class MenuLogic : MonoBehaviour
 		m_winLoosePanel.SetActive(false);
 		m_inGameUi.SetActive(false);
 		m_mainMenuScreen.SetActive(true);
-		DisableTurnButton();
+
 	}
 	public void EnableTurnButton()
 	{

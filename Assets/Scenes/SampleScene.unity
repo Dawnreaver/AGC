@@ -381,6 +381,11 @@ Prefab:
       propertyPath: m_gameLogic
       value: 
       objectReference: {fileID: 859229178}
+    - target: {fileID: 114527250253764628, guid: f2cbc228ecb010f41914580750e30fb3,
+        type: 2}
+      propertyPath: m_territoryType
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f2cbc228ecb010f41914580750e30fb3, type: 2}
   m_IsPrefabAsset: 0
@@ -739,7 +744,7 @@ RectTransform:
   m_Children:
   - {fileID: 502206897}
   m_Father: {fileID: 688863304}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 0}
@@ -1120,6 +1125,11 @@ Prefab:
       propertyPath: m_gameLogic
       value: 
       objectReference: {fileID: 859229178}
+    - target: {fileID: 114527250253764628, guid: f2cbc228ecb010f41914580750e30fb3,
+        type: 2}
+      propertyPath: m_territoryType
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f2cbc228ecb010f41914580750e30fb3, type: 2}
   m_IsPrefabAsset: 0
@@ -1743,6 +1753,11 @@ Prefab:
       propertyPath: m_gameLogic
       value: 
       objectReference: {fileID: 859229178}
+    - target: {fileID: 114527250253764628, guid: f2cbc228ecb010f41914580750e30fb3,
+        type: 2}
+      propertyPath: m_territoryType
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f2cbc228ecb010f41914580750e30fb3, type: 2}
   m_IsPrefabAsset: 0
@@ -1916,7 +1931,7 @@ Prefab:
     - target: {fileID: 114527250253764628, guid: f2cbc228ecb010f41914580750e30fb3,
         type: 2}
       propertyPath: m_territoryType
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 114527250253764628, guid: f2cbc228ecb010f41914580750e30fb3,
         type: 2}
@@ -2109,7 +2124,7 @@ RectTransform:
   - {fileID: 353830041}
   - {fileID: 61282215}
   m_Father: {fileID: 688863304}
-  m_RootOrder: 3
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
@@ -2290,12 +2305,12 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 283142990}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 688863304}
-  m_RootOrder: 1
+  m_Father: {fileID: 1441350692}
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -2851,6 +2866,11 @@ Prefab:
       propertyPath: m_gameLogic
       value: 
       objectReference: {fileID: 859229178}
+    - target: {fileID: 114527250253764628, guid: f2cbc228ecb010f41914580750e30fb3,
+        type: 2}
+      propertyPath: m_territoryType
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f2cbc228ecb010f41914580750e30fb3, type: 2}
   m_IsPrefabAsset: 0
@@ -2997,6 +3017,11 @@ Prefab:
       propertyPath: m_gameLogic
       value: 
       objectReference: {fileID: 859229178}
+    - target: {fileID: 114527250253764628, guid: f2cbc228ecb010f41914580750e30fb3,
+        type: 2}
+      propertyPath: m_territoryType
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f2cbc228ecb010f41914580750e30fb3, type: 2}
   m_IsPrefabAsset: 0
@@ -3574,6 +3599,11 @@ Prefab:
       propertyPath: m_gameLogic
       value: 
       objectReference: {fileID: 859229178}
+    - target: {fileID: 114527250253764628, guid: f2cbc228ecb010f41914580750e30fb3,
+        type: 2}
+      propertyPath: m_territoryType
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f2cbc228ecb010f41914580750e30fb3, type: 2}
   m_IsPrefabAsset: 0
@@ -3790,6 +3820,11 @@ Prefab:
       propertyPath: m_gameLogic
       value: 
       objectReference: {fileID: 859229178}
+    - target: {fileID: 114527250253764628, guid: f2cbc228ecb010f41914580750e30fb3,
+        type: 2}
+      propertyPath: m_territoryType
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f2cbc228ecb010f41914580750e30fb3, type: 2}
   m_IsPrefabAsset: 0
@@ -4159,7 +4194,7 @@ RectTransform:
   - {fileID: 412861450}
   - {fileID: 117852610}
   m_Father: {fileID: 688863304}
-  m_RootOrder: 5
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.381125, y: 0.21700001}
   m_AnchorMax: {x: 0.629, y: 0.34}
@@ -4385,7 +4420,6 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1441350692}
-  - {fileID: 283142993}
   - {fileID: 121716096}
   - {fileID: 271305766}
   - {fileID: 1568448743}
@@ -4901,6 +4935,11 @@ Prefab:
       propertyPath: m_gameLogic
       value: 
       objectReference: {fileID: 859229178}
+    - target: {fileID: 114527250253764628, guid: f2cbc228ecb010f41914580750e30fb3,
+        type: 2}
+      propertyPath: m_territoryType
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f2cbc228ecb010f41914580750e30fb3, type: 2}
   m_IsPrefabAsset: 0
@@ -5181,6 +5220,7 @@ MonoBehaviour:
   m_menuLogic: {fileID: 1795396282}
   m_factions: 2
   m_startArmySize: 20
+  m_randomlyPlaceArmies: 1
   m_factionList: []
   m_factionIcons:
   - {fileID: 21300000, guid: 3c5eb54c84d43aa4c9de91832a5a383e, type: 3}
@@ -5189,7 +5229,7 @@ MonoBehaviour:
   - {fileID: 21300000, guid: b2b02f582afe3c748887194775024f84, type: 3}
   - {fileID: 21300000, guid: fd7f79879da53414e9d5cd539b0b1837, type: 3}
   - {fileID: 21300000, guid: 4e80821b829973847858cd399ea54a00, type: 3}
-  m_randomBoard: 1
+  m_randomBoard: 0
   m_factionMaterials:
   - {fileID: 2100000, guid: 026ca5643b787a84ab281e8c3ba4a3cf, type: 2}
   - {fileID: 2100000, guid: f702bca04ab17404f9ca85173629fdee, type: 2}
@@ -5209,6 +5249,7 @@ MonoBehaviour:
   - Helmet
   - Weapon
   - Gold
+  m_numberOfRandomResources: 9
   m_territories: []
   m_assignableTerritories: []
   m_attackableTerritories: []
@@ -5223,7 +5264,6 @@ MonoBehaviour:
   m_availableArmies: 0
   m_playerPrefab: {fileID: 1104911775704328, guid: 2674f8efc9e26d340b041fee00034b79,
     type: 2}
-  m_randomlyPlaceArmies: 1
 --- !u!4 &859229179
 Transform:
   m_ObjectHideFlags: 0
@@ -5672,6 +5712,11 @@ Prefab:
       propertyPath: m_gameLogic
       value: 
       objectReference: {fileID: 859229178}
+    - target: {fileID: 114527250253764628, guid: f2cbc228ecb010f41914580750e30fb3,
+        type: 2}
+      propertyPath: m_territoryType
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f2cbc228ecb010f41914580750e30fb3, type: 2}
   m_IsPrefabAsset: 0
@@ -5709,7 +5754,7 @@ RectTransform:
   - {fileID: 134687221}
   - {fileID: 647520564}
   m_Father: {fileID: 688863304}
-  m_RootOrder: 6
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -5934,6 +5979,11 @@ Prefab:
       propertyPath: m_gameLogic
       value: 
       objectReference: {fileID: 859229178}
+    - target: {fileID: 114527250253764628, guid: f2cbc228ecb010f41914580750e30fb3,
+        type: 2}
+      propertyPath: m_territoryType
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f2cbc228ecb010f41914580750e30fb3, type: 2}
   m_IsPrefabAsset: 0
@@ -6080,6 +6130,11 @@ Prefab:
       propertyPath: m_gameLogic
       value: 
       objectReference: {fileID: 859229178}
+    - target: {fileID: 114527250253764628, guid: f2cbc228ecb010f41914580750e30fb3,
+        type: 2}
+      propertyPath: m_territoryType
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f2cbc228ecb010f41914580750e30fb3, type: 2}
   m_IsPrefabAsset: 0
@@ -6210,6 +6265,11 @@ Prefab:
     - target: {fileID: 1018091319073548, guid: f2cbc228ecb010f41914580750e30fb3, type: 2}
       propertyPath: m_Name
       value: BaseTile1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114527250253764628, guid: f2cbc228ecb010f41914580750e30fb3,
+        type: 2}
+      propertyPath: m_territoryType
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f2cbc228ecb010f41914580750e30fb3, type: 2}
@@ -8196,6 +8256,7 @@ RectTransform:
   - {fileID: 1282604260}
   - {fileID: 1448074783}
   - {fileID: 785165794}
+  - {fileID: 283142993}
   m_Father: {fileID: 688863304}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -8946,6 +9007,11 @@ Prefab:
       propertyPath: m_gameLogic
       value: 
       objectReference: {fileID: 859229178}
+    - target: {fileID: 114527250253764628, guid: f2cbc228ecb010f41914580750e30fb3,
+        type: 2}
+      propertyPath: m_territoryType
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f2cbc228ecb010f41914580750e30fb3, type: 2}
   m_IsPrefabAsset: 0
@@ -9113,7 +9179,7 @@ RectTransform:
   - {fileID: 1820637414}
   - {fileID: 1695568996}
   m_Father: {fileID: 688863304}
-  m_RootOrder: 4
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 0, y: 0.5}
@@ -10632,8 +10698,9 @@ MonoBehaviour:
   m_targetTerritoryPanel: {fileID: 1568448742}
   m_removeArmiesButton: {fileID: 353830042}
   m_addArmiesButton: {fileID: 61282216}
-  m_territoryNameText: {fileID: 425029641}
-  m_numberOfArmiesText: {fileID: 1373226891}
+  m_selectedTerritoryNameText: {fileID: 425029641}
+  m_selectedTeritorryResourceText: {fileID: 863939939}
+  m_selectedTeritorryNumberOfArmiesText: {fileID: 352536458}
   m_turnButton: {fileID: 121716095}
   m_turnPhaseSprites:
   - {fileID: 21300000, guid: 2366f1f302f18c34283d91a97f7f65ba, type: 3}
@@ -11450,6 +11517,11 @@ Prefab:
       propertyPath: m_gameLogic
       value: 
       objectReference: {fileID: 859229178}
+    - target: {fileID: 114527250253764628, guid: f2cbc228ecb010f41914580750e30fb3,
+        type: 2}
+      propertyPath: m_territoryType
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f2cbc228ecb010f41914580750e30fb3, type: 2}
   m_IsPrefabAsset: 0

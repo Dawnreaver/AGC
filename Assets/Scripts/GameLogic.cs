@@ -14,7 +14,9 @@ public class GameLogic : MonoBehaviour
 	// Game options
 	[Range(1, 6)]
 	public int m_factions = 2;
+	[Range(20,40)]
 	public int m_startArmySize = 20; // make start armies dependent on the number of players, see risk rule book
+	public bool m_randomlyPlaceArmies = false;
 	public List<BasePlayer> m_factionList = new List<BasePlayer>();
 	public List<Sprite> m_factionIcons = new List<Sprite>();
 	public bool m_randomBoard = false;
@@ -24,7 +26,12 @@ public class GameLogic : MonoBehaviour
 
 	// Territory variables
 	public string[] m_territoryTypes = new string[]{ "Land", "Water"};
+
+	// Resource variables
 	public string[] m_resourceTypes = new string[]{ "Empty", "Fish", "Grain", "Wine", "Armor", "Helmet", "Weapon", "Gold"};
+
+	[Range(0,9)]
+	public int m_numberOfRandomResources = 0;
 
 	public List<GameObject> m_territories = new List<GameObject>();
 	public List<GameObject> m_assignableTerritories = new List<GameObject>();
@@ -50,12 +57,13 @@ public class GameLogic : MonoBehaviour
 	int m_minimumArmyTerritories = 9;
 	int m_minimumArmiesGenerated = 3;
 	int m_armieRecruitmentFactor = 3;
-
 	public int m_availableArmies;
 
+	// player variables
 	public GameObject m_playerPrefab;
 
-	public bool m_randomlyPlaceArmies = false;
+	// game options
+	
 
 	private void Awake()
 	{
@@ -63,7 +71,6 @@ public class GameLogic : MonoBehaviour
 	}
 	private void GenerateBoard()
 	{
-		//GameObject[] tempTerritories = GameObject.FindGameObjectsWithTag("Territory");
 		GameObject[] tempTerritories = CollectTerritories();
 		List<GameObject> territories = new List<GameObject>();
 		foreach( GameObject territory in tempTerritories)
@@ -79,6 +86,28 @@ public class GameLogic : MonoBehaviour
 			territories.Add(tile.gameObject);
 		}
 		m_assignableTerritories = territories;
+
+		//List<GameObject> randomResources = new List<GameObject>();
+		//randomResources = territories;
+		
+		for (int r = 0; r < m_numberOfRandomResources; r++)
+		{
+			BaseTile tile = territories[Random.Range(1,territories.Count)].GetComponent<BaseTile>();
+			if(tile.m_territoryType == TerritoryTypes.Water && tile.m_resource1 == ResourceTypes.Empty)
+			{
+				tile.m_resource1 = ResourceTypes.Fish;
+			}
+			else if(tile.m_territoryType == TerritoryTypes.Land && tile.m_resource1 == ResourceTypes.Empty)
+			{
+				tile.m_resource1 = GetRandomEnum<ResourceTypes>(2,7);
+			}
+			else
+			{
+				r--;
+			}
+			//randomResources.Remove(tile.gameObject);
+			Debug.Log("Territory: "+ tile.gameObject.name + " Resource: "+ tile.m_resource1.ToString());
+		}
 	}
 	private void DistributeTerritories()
 	{
@@ -550,7 +579,8 @@ public class GameLogic : MonoBehaviour
 	}
 
 	public void AttackTerritory (int attackingArmy, int defendingArmy)
-	{
+	{	
+		if(m_debug)
 		Debug.Log("clicked attack");
 		int attacker = attackingArmy;
 		int defender = defendingArmy;
@@ -610,9 +640,12 @@ public class GameLogic : MonoBehaviour
 				// check if we won the game
 				if(DidPlayerWin(attackingTerritory.m_playerId))
 				{
+					if(m_debug)
 					Debug.Log("Player "+attackingTerritory.m_playerId+" won the game!");
+					m_gamePhase = GamePhases.InMenues;
 					m_menuLogic.SetWinLoosePanel();
 					DeselectTerritories();
+					if(m_debug)
 					Debug.Log("Break out of the funktion...");
 				}
 			}
@@ -638,6 +671,7 @@ public class GameLogic : MonoBehaviour
 	public void ReinforceTerritory()
 	{
 		int reinforcement = (int)m_menuLogic.m_armySlider.value;
+		if(m_debug)
 		Debug.Log("Clicked reinforcement");
 		m_selectedTeritorry.m_armyCount -= reinforcement;
 		m_targetTerritory.m_armyCount += reinforcement;
@@ -682,7 +716,6 @@ public class GameLogic : MonoBehaviour
 
 		return playerWin;
 	}
-
 	public void WinLooseGame()
 	{
 		// check if the game was won or lost

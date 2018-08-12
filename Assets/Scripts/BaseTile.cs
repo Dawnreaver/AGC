@@ -69,7 +69,7 @@ public class BaseTile : MonoBehaviour
                     }
                     else if(m_gameLogic.m_attackableTerritories.Contains(this.gameObject) && m_gameLogic.m_selectedTeritorry != null)
                     {
-                        Debug.Log("Selected attackable territory: "+ this.gameObject.name);
+                        //Debug.Log("Selected attackable territory: "+ this.gameObject.name);
                         SelectTargetTerritory();
                     }
                 break;
@@ -81,7 +81,7 @@ public class BaseTile : MonoBehaviour
                     }
                     else if(m_gameLogic.m_playerTerritories.Contains(this.gameObject) && m_gameLogic.m_selectedTeritorry != this)
                     {
-                        Debug.Log("Selected movement territory: "+ this.gameObject.name);
+                        //Debug.Log("Selected movement territory: "+ this.gameObject.name);
                         SelectMovementTerritory();
                     }
                 break;
