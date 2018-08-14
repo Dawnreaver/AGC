@@ -109,7 +109,7 @@ public class GameLogic : MonoBehaviour
 				r--;
 			}
 			//randomResources.Remove(tile.gameObject);
-			Debug.Log("Territory: "+ tile.gameObject.name + " Resource: "+ tile.m_resource1.ToString());
+			//Debug.Log("Territory: "+ tile.gameObject.name + " Resource: "+ tile.m_resource1.ToString());
 		}
 	}
 	private void DistributeTerritories()
@@ -722,5 +722,29 @@ public class GameLogic : MonoBehaviour
 	public void WinLooseGame()
 	{
 		// check if the game was won or lost
+	}
+
+	public void ResetGame()
+	{
+		foreach(BasePlayer player in m_factionList)
+		{
+			player.m_availableArmies = 0;
+			player.m_isDefeated = 0;
+			player.m_factionName = "";
+			player.m_isAiControlled = false;
+			player.m_factionColor = Color.white;
+		}
+
+		foreach(GameObject gameTile in m_territories)
+		{
+			BaseTile tile = gameTile.GetComponent<BaseTile>();
+			tile.m_armyCount = 0;
+			tile.m_factionColor = Color.white;
+			tile.m_playerId = 0;
+			tile.m_resource1 = ResourceTypes.Empty;
+			tile.m_territoryType = TerritoryTypes.Land;
+			tile.m_resourceToken.SetActive(false);
+			// reset tile values as appropriate ....
+		}
 	}
 }

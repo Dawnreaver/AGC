@@ -63,6 +63,11 @@ public class MenuLogic : MonoBehaviour
 
 	// Win Lose Panel
 	public GameObject m_winLoosePanel;
+
+	// resources
+	public Image m_resourceIconSelected;
+	public Image m_resourceIconTarget;
+	public List<Sprite> m_resourceIcons = new List<Sprite>();
 	void Awake() 
 	{
 		m_raycaster = GetComponent<GraphicRaycaster>();
@@ -211,6 +216,9 @@ public class MenuLogic : MonoBehaviour
 	{
 		m_selectedTeritorryNumberOfArmiesText.text = ""+(m_gameLogic.m_selectedTeritorry.m_armyCount+m_gameLogic.m_selectedTeritorry.m_tempArmyCount);
 		m_selectedTerritoryNameText.text = m_gameLogic.m_selectedTeritorry.m_territoryName;
+		// update resource icon
+		SetResourceIcon(m_gameLogic.m_selectedTeritorry,m_resourceIconSelected);
+
 		if(m_gameLogic.m_selectedTeritorry.m_resource1 != ResourceTypes.Empty)
 		{
 			m_selectedTeritorryResourceText.text = ""+m_gameLogic.m_selectedTeritorry.m_resource1.ToString();
@@ -297,6 +305,16 @@ public class MenuLogic : MonoBehaviour
 
 				m_targetTerritoryNameText.text = m_gameLogic.m_targetTerritory.m_territoryName;
 				m_targetTerritoryArmyCountText.text = ""+m_gameLogic.m_targetTerritory.m_armyCount;
+				if( m_gameLogic.m_targetTerritory.m_resource1 != ResourceTypes.Empty)
+				{
+					m_targetTerritoryResourceText.text = ""+m_gameLogic.m_targetTerritory.m_resource1.ToString();
+				}
+				else
+				{
+					m_targetTerritoryResourceText.text = "";
+				}
+				// update resource icon
+				SetResourceIcon(m_gameLogic.m_targetTerritory,m_resourceIconTarget);
 
 				switch(m_gameLogic.m_turnPhase)
 				{
@@ -412,5 +430,39 @@ public class MenuLogic : MonoBehaviour
 	public void DisableTurnButton()
 	{
 		m_turnButton.SetActive(false);
+	}
+
+	void SetResourceIcon(BaseTile tile, Image targetImage)
+	{
+		targetImage.gameObject.SetActive(true);
+		
+		switch(tile.m_resource1)
+		{
+			case ResourceTypes.Fish :
+				targetImage.sprite = m_resourceIcons[0];
+			break;
+			case ResourceTypes.Grain :
+				targetImage.sprite = m_resourceIcons[1];
+			break;
+			case ResourceTypes.Wine :
+				targetImage.sprite = m_resourceIcons[2];
+			break;
+			case ResourceTypes.Armor :
+				targetImage.sprite = m_resourceIcons[3];
+			break;
+			case ResourceTypes.Helmet :
+				targetImage.sprite = m_resourceIcons[4];
+			break;
+			case ResourceTypes.Weapon :
+				targetImage.sprite = m_resourceIcons[5];
+			break;
+			case ResourceTypes.Gold :
+				targetImage.sprite = m_resourceIcons[6];
+			break;
+
+			default :
+				targetImage.gameObject.SetActive(false);
+			break;
+		}
 	}
 }
