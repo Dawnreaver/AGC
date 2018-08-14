@@ -82,6 +82,7 @@ public class GameLogic : MonoBehaviour
 			}
 			tile.AdjustTerritoryMaterial();
 			tile.m_factionToken.SetActive(false);
+			tile.m_resourceToken.SetActive(false);
 			tile.m_gameLogic = this;
 			territories.Add(tile.gameObject);
 		}
@@ -96,10 +97,12 @@ public class GameLogic : MonoBehaviour
 			if(tile.m_territoryType == TerritoryTypes.Water && tile.m_resource1 == ResourceTypes.Empty)
 			{
 				tile.m_resource1 = ResourceTypes.Fish;
+				tile.m_resourceToken.SetActive(true);
 			}
 			else if(tile.m_territoryType == TerritoryTypes.Land && tile.m_resource1 == ResourceTypes.Empty)
 			{
 				tile.m_resource1 = GetRandomEnum<ResourceTypes>(2,7);
+				tile.m_resourceToken.SetActive(true);
 			}
 			else
 			{

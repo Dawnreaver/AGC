@@ -35,6 +35,8 @@ public class BaseTile : MonoBehaviour
     public Mesh m_landArmy;
     public Mesh m_waterArmy;
 
+    public GameObject m_resourceToken;
+
     public bool m_debug = false;
     void Awake()
     {

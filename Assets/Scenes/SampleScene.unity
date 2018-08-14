@@ -386,6 +386,10 @@ Prefab:
       propertyPath: m_territoryType
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1015385222128832, guid: f2cbc228ecb010f41914580750e30fb3, type: 2}
+      propertyPath: m_Name
+      value: ResourceToken
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f2cbc228ecb010f41914580750e30fb3, type: 2}
   m_IsPrefabAsset: 0
@@ -1130,6 +1134,10 @@ Prefab:
       propertyPath: m_territoryType
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1015385222128832, guid: f2cbc228ecb010f41914580750e30fb3, type: 2}
+      propertyPath: m_Name
+      value: ResourceToken
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f2cbc228ecb010f41914580750e30fb3, type: 2}
   m_IsPrefabAsset: 0
@@ -1758,6 +1766,10 @@ Prefab:
       propertyPath: m_territoryType
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1015385222128832, guid: f2cbc228ecb010f41914580750e30fb3, type: 2}
+      propertyPath: m_Name
+      value: ResourceToken
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f2cbc228ecb010f41914580750e30fb3, type: 2}
   m_IsPrefabAsset: 0
@@ -2013,6 +2025,10 @@ Prefab:
       propertyPath: m_gameLogic
       value: 
       objectReference: {fileID: 859229178}
+    - target: {fileID: 1015385222128832, guid: f2cbc228ecb010f41914580750e30fb3, type: 2}
+      propertyPath: m_Name
+      value: ResourceToken
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f2cbc228ecb010f41914580750e30fb3, type: 2}
   m_IsPrefabAsset: 0
@@ -2871,6 +2887,10 @@ Prefab:
       propertyPath: m_territoryType
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 1015385222128832, guid: f2cbc228ecb010f41914580750e30fb3, type: 2}
+      propertyPath: m_Name
+      value: ResourceToken
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f2cbc228ecb010f41914580750e30fb3, type: 2}
   m_IsPrefabAsset: 0
@@ -3021,6 +3041,10 @@ Prefab:
         type: 2}
       propertyPath: m_territoryType
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1015385222128832, guid: f2cbc228ecb010f41914580750e30fb3, type: 2}
+      propertyPath: m_Name
+      value: ResourceToken
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f2cbc228ecb010f41914580750e30fb3, type: 2}
@@ -3604,6 +3628,10 @@ Prefab:
       propertyPath: m_territoryType
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1015385222128832, guid: f2cbc228ecb010f41914580750e30fb3, type: 2}
+      propertyPath: m_Name
+      value: ResourceToken
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f2cbc228ecb010f41914580750e30fb3, type: 2}
   m_IsPrefabAsset: 0
@@ -3824,6 +3852,10 @@ Prefab:
         type: 2}
       propertyPath: m_territoryType
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1015385222128832, guid: f2cbc228ecb010f41914580750e30fb3, type: 2}
+      propertyPath: m_Name
+      value: ResourceToken
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f2cbc228ecb010f41914580750e30fb3, type: 2}
@@ -4940,6 +4972,10 @@ Prefab:
       propertyPath: m_territoryType
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1015385222128832, guid: f2cbc228ecb010f41914580750e30fb3, type: 2}
+      propertyPath: m_Name
+      value: ResourceToken
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f2cbc228ecb010f41914580750e30fb3, type: 2}
   m_IsPrefabAsset: 0
@@ -5091,6 +5127,10 @@ Prefab:
       propertyPath: m_gameLogic
       value: 
       objectReference: {fileID: 859229178}
+    - target: {fileID: 1015385222128832, guid: f2cbc228ecb010f41914580750e30fb3, type: 2}
+      propertyPath: m_Name
+      value: ResourceToken
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f2cbc228ecb010f41914580750e30fb3, type: 2}
   m_IsPrefabAsset: 0
@@ -5249,7 +5289,7 @@ MonoBehaviour:
   - Helmet
   - Weapon
   - Gold
-  m_numberOfRandomResources: 9
+  m_numberOfRandomResources: 6
   m_territories: []
   m_assignableTerritories: []
   m_attackableTerritories: []
@@ -5717,6 +5757,10 @@ Prefab:
       propertyPath: m_territoryType
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 1015385222128832, guid: f2cbc228ecb010f41914580750e30fb3, type: 2}
+      propertyPath: m_Name
+      value: ResourceToken
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f2cbc228ecb010f41914580750e30fb3, type: 2}
   m_IsPrefabAsset: 0
@@ -5984,6 +6028,10 @@ Prefab:
       propertyPath: m_territoryType
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1015385222128832, guid: f2cbc228ecb010f41914580750e30fb3, type: 2}
+      propertyPath: m_Name
+      value: ResourceToken
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f2cbc228ecb010f41914580750e30fb3, type: 2}
   m_IsPrefabAsset: 0
@@ -6135,6 +6183,10 @@ Prefab:
       propertyPath: m_territoryType
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1015385222128832, guid: f2cbc228ecb010f41914580750e30fb3, type: 2}
+      propertyPath: m_Name
+      value: ResourceToken
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f2cbc228ecb010f41914580750e30fb3, type: 2}
   m_IsPrefabAsset: 0
@@ -6265,11 +6317,6 @@ Prefab:
     - target: {fileID: 1018091319073548, guid: f2cbc228ecb010f41914580750e30fb3, type: 2}
       propertyPath: m_Name
       value: BaseTile1
-      objectReference: {fileID: 0}
-    - target: {fileID: 114527250253764628, guid: f2cbc228ecb010f41914580750e30fb3,
-        type: 2}
-      propertyPath: m_territoryType
-      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f2cbc228ecb010f41914580750e30fb3, type: 2}
@@ -9012,6 +9059,10 @@ Prefab:
       propertyPath: m_territoryType
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1015385222128832, guid: f2cbc228ecb010f41914580750e30fb3, type: 2}
+      propertyPath: m_Name
+      value: ResourceToken
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f2cbc228ecb010f41914580750e30fb3, type: 2}
   m_IsPrefabAsset: 0
@@ -11521,6 +11572,10 @@ Prefab:
         type: 2}
       propertyPath: m_territoryType
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1015385222128832, guid: f2cbc228ecb010f41914580750e30fb3, type: 2}
+      propertyPath: m_Name
+      value: ResourceToken
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f2cbc228ecb010f41914580750e30fb3, type: 2}
