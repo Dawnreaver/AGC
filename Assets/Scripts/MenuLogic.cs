@@ -116,6 +116,7 @@ public class MenuLogic : MonoBehaviour
 				
 				m_gameLogic.SetGamePhaseIndex(1);
 				m_gameLogic.StartCoroutine("AutoAdvanceTurn",0.5f);
+				m_gameLogic.GenerateBoard();
 				m_gameLogic.SetUpGame();
 			}
 		}
@@ -155,7 +156,6 @@ public class MenuLogic : MonoBehaviour
 		m_createNewGameScreen.SetActive(false);
 		m_mainMenuScreen.SetActive(false);
 		m_loadingGame = true;
-		m_gameLogic.GenerateBoard();
 	}
 
 	public void StartSession()

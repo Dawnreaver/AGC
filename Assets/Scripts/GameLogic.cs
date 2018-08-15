@@ -72,7 +72,6 @@ public class GameLogic : MonoBehaviour
 	void SetBoard()
 	{
 		GameObject[] tempTerritories = CollectTerritories();
-		List<GameObject> territories = new List<GameObject>();
 		foreach( GameObject territory in tempTerritories)
 		{
 			BaseTile tile = territory.GetComponent<BaseTile>();
@@ -122,6 +121,7 @@ public class GameLogic : MonoBehaviour
 				r--;
 			}
 		}
+		SetDiceBonus();
 	}
 	private void DistributeTerritories()
 	{
@@ -172,9 +172,6 @@ public class GameLogic : MonoBehaviour
 
 
 // FEEDBACKFUNCTIONS
-
-// Taking over territorry 
-// fortifing territorry
 
 // Helper functions
 	public void SetSelectedTerritory(BaseTile tile)
@@ -424,7 +421,6 @@ public class GameLogic : MonoBehaviour
 	public void SetActivePlayer()
 	{
 		m_playerIndex = IncreaseValue(m_playerIndex, m_factions);
-
 	}
 
 	void SelectPlayerTerritories()
@@ -521,7 +517,6 @@ public class GameLogic : MonoBehaviour
 				baseTile.m_armyCount++;
 				baseTile.SetUnitCount();
 				m_factionList[c].m_availableArmies--;
-
 			}
 		}
 	}
@@ -553,7 +548,6 @@ public class GameLogic : MonoBehaviour
 		}
 		m_menuLogic.SetNotification("Player "+m_playerIndex+" turn.");
 		//m_availableArmies = RecruitArmies();
-
 		// choose a random start player
 		m_playerIndex = Random.Range(1, m_factions+1);
 		//Debug.Log("PI: "+m_playerIndex);
@@ -613,8 +607,27 @@ public class GameLogic : MonoBehaviour
 		while(attacker > 0)
 		{
 			int attackRoll = Random.Range(1,7);
+			Debug.Log("Attacker roll: "+attackRoll);
 			int defendRoll = Random.Range(1,7);
 			// TODO add bonuses for both sides (maybe as a helper function?)
+			if( attackRoll < 5)
+			{
+				attackRoll += m_factionList[m_selectedTeritorry.m_playerId-1].m_diceModifier;
+				if( attackRoll > 5)
+				{
+					attackRoll = 5;
+				}
+			}
+			if( defendRoll < 5)
+			{
+				defendRoll += m_factionList[m_targetTerritory.m_playerId-1].m_diceModifier;
+				if( defendRoll > 5)
+				{
+					defendRoll = 5;
+				}
+			}
+			Debug.Log("Attacker roll with bonus: "+attackRoll);
+
 			if(m_debug)
 			Debug.Log("Defender: "+defendRoll+" Attacker: "+attackRoll);
 			if(attackRoll > defendRoll)
@@ -637,6 +650,8 @@ public class GameLogic : MonoBehaviour
 				}
 				m_menuLogic.SetArmySlider();
 			}
+			attackRoll = 0;
+			defendRoll = 0;
 		}
 
 		if ( defender == 0 )
@@ -671,7 +686,7 @@ public class GameLogic : MonoBehaviour
 			defendedTerritory.ConquerTile(attackingTerritory.m_factionMaterial);
 			SelectPlayerTerritories();
 			PrepareNextAttack();
-			
+			SetDiceBonus();
 		}
 		else if(attacker == 0)
 		{
@@ -733,6 +748,7 @@ public class GameLogic : MonoBehaviour
 		}
 		return playerWin;
 	}
+
 	public void WinLooseGame()
 	{
 		// check if the game was won or lost
@@ -742,11 +758,14 @@ public class GameLogic : MonoBehaviour
 	{
 		foreach(BasePlayer player in m_factionList)
 		{
-			player.m_availableArmies = 0;
+			player.DeletePlayerObject();
+			
+			/*player.m_availableArmies = 0;
 			player.m_isDefeated = 0;
 			player.m_factionName = "";
-			player.m_isAiControlled = false;
+			player.m_isAiControlled = false;*/
 		}
+		m_factionList.Clear();
 
 		foreach(GameObject gameTile in m_territories)
 		{
@@ -754,7 +773,6 @@ public class GameLogic : MonoBehaviour
 			tile.m_armyCount = 0;
 			tile.m_playerId = 0;
 			tile.m_resource1 = ResourceTypes.Empty;
-			tile.m_territoryType = TerritoryTypes.Land;
 			tile.m_resourceToken.SetActive(false);
 			tile.m_factionToken.SetActive(false);
 			// reset tile values as appropriate ....
@@ -766,5 +784,68 @@ public class GameLogic : MonoBehaviour
 		m_playerTerritories.Clear();
 		m_selectedTeritorry = null;
 		m_targetTerritory = null;
+		m_turnPhase = TurnPhases.Idle;
+
+	}
+
+	void SetDiceBonus()
+	{
+		foreach(BasePlayer player in m_factionList)
+		{
+			bool armement1 = false;
+			bool armement2 = false;
+			bool armement3 = false;
+			bool gold = false;
+			bool food1 = false;
+			bool food2 = false;
+			bool food3 = false;
+
+			player.m_diceModifier = 0;
+
+			for(int a = 0; a < m_territories.Count;a++)
+			{
+				if(m_territories[a].GetComponent<BaseTile>().m_playerId == player.m_playerIndex)
+				{
+					switch(m_territories[a].GetComponent<BaseTile>().m_resource1)
+					{
+						case ResourceTypes.Armor :
+							armement1 = true;
+						break;
+						case ResourceTypes.Helmet :
+							armement2 = true;
+						break;
+						case ResourceTypes.Weapon :
+							armement3 = true;
+						break;
+
+						case ResourceTypes.Fish :
+							food1 = true;
+						break;
+						case ResourceTypes.Grain :
+							food2 = true;
+						break;
+						case ResourceTypes.Wine :
+							food3 = true;
+						break;
+						case ResourceTypes.Gold :
+							gold = true;
+						break;
+					}
+				}
+			}
+
+			if(food1 && food2 && food3 || armement1 && armement2 && armement3 || gold)
+			{
+				player.m_diceModifier = 1;
+			}
+			else if( food1 && food2 && food3 && gold || armement1 && armement2 && armement3 && gold || food1 && food2 && food3 && armement1 && armement2 && armement3)
+			{
+				player.m_diceModifier = 2;
+			}
+			else if(food1 && food2 && food3 && armement1 && armement2 && armement3 && gold)
+			{
+				player.m_diceModifier = 3;
+			}
+		}
 	}
 }

@@ -11,4 +11,9 @@ public class BasePlayer : MonoBehaviour
 	public Color m_factionColor;
 	public int m_diceModifier;
 	public int m_isDefeated;
+
+	public void DeletePlayerObject()
+	{
+		Destroy(this.gameObject);
+	}
 }
