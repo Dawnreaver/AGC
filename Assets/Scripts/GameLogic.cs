@@ -34,6 +34,7 @@ public class GameLogic : MonoBehaviour
 	public int m_numberOfRandomResources = 0;
 
 	public List<GameObject> m_territories = new List<GameObject>();
+	public List<BaseTile> m_resourceTerritories = new List<BaseTile>();
 	public List<GameObject> m_assignableTerritories = new List<GameObject>();
 	public List<GameObject> m_attackableTerritories = new List<GameObject>();
 	public float m_attackReach = 1.5f;
@@ -63,13 +64,30 @@ public class GameLogic : MonoBehaviour
 	public GameObject m_playerPrefab;
 
 	// game options
-	
-
 	private void Awake()
 	{
-		GenerateBoard();
+		SetBoard();
 	}
-	private void GenerateBoard()
+
+	void SetBoard()
+	{
+		GameObject[] tempTerritories = CollectTerritories();
+		List<GameObject> territories = new List<GameObject>();
+		foreach( GameObject territory in tempTerritories)
+		{
+			BaseTile tile = territory.GetComponent<BaseTile>();
+			/*if(m_randomBoard)
+			{
+				tile.m_territoryType = GetRandomEnum<TerritoryTypes>(0,0);
+			}*/
+			tile.AdjustTerritoryMaterial();
+			tile.m_factionToken.SetActive(false);
+			tile.m_resourceToken.SetActive(false);
+			tile.m_gameLogic = this;
+			//territories.Add(tile.gameObject);
+		}
+	}
+	public void GenerateBoard()
 	{
 		GameObject[] tempTerritories = CollectTerritories();
 		List<GameObject> territories = new List<GameObject>();
@@ -87,9 +105,6 @@ public class GameLogic : MonoBehaviour
 			territories.Add(tile.gameObject);
 		}
 		m_assignableTerritories = territories;
-
-		//List<GameObject> randomResources = new List<GameObject>();
-		//randomResources = territories;
 		
 		for (int r = 0; r < m_numberOfRandomResources; r++)
 		{
@@ -97,19 +112,15 @@ public class GameLogic : MonoBehaviour
 			if(tile.m_territoryType == TerritoryTypes.Water && tile.m_resource1 == ResourceTypes.Empty)
 			{
 				tile.m_resource1 = ResourceTypes.Fish;
-				tile.m_resourceToken.SetActive(true);
 			}
 			else if(tile.m_territoryType == TerritoryTypes.Land && tile.m_resource1 == ResourceTypes.Empty)
 			{
 				tile.m_resource1 = GetRandomEnum<ResourceTypes>(2,7);
-				tile.m_resourceToken.SetActive(true);
 			}
 			else
 			{
 				r--;
 			}
-			//randomResources.Remove(tile.gameObject);
-			//Debug.Log("Territory: "+ tile.gameObject.name + " Resource: "+ tile.m_resource1.ToString());
 		}
 	}
 	private void DistributeTerritories()
@@ -118,11 +129,15 @@ public class GameLogic : MonoBehaviour
 		int iterations = m_assignableTerritories.Count;
 		for ( int b = 0; b < iterations; b++)
 		{
-			
 			randomTerritory = m_assignableTerritories[Random.Range(0,m_assignableTerritories.Count)];
 			BaseTile territory = randomTerritory.GetComponent<BaseTile>();
 			territory.m_playerId = m_playerIndex;
 			territory.m_factionToken.SetActive(true);
+			if( territory.m_resource1 != ResourceTypes.Empty)
+			{
+				territory.m_resourceToken.SetActive(true);
+				m_resourceTerritories.Add(territory);
+			}
 			m_factionList[m_playerIndex-1].m_availableArmies --;
 			territory.SetFaction(m_factionMaterials[m_playerIndex-1]);
 			territory.m_armyCount++;
@@ -716,7 +731,6 @@ public class GameLogic : MonoBehaviour
 				playerWin = false;
 			}
 		}
-
 		return playerWin;
 	}
 	public void WinLooseGame()
@@ -732,19 +746,25 @@ public class GameLogic : MonoBehaviour
 			player.m_isDefeated = 0;
 			player.m_factionName = "";
 			player.m_isAiControlled = false;
-			player.m_factionColor = Color.white;
 		}
 
 		foreach(GameObject gameTile in m_territories)
 		{
 			BaseTile tile = gameTile.GetComponent<BaseTile>();
 			tile.m_armyCount = 0;
-			tile.m_factionColor = Color.white;
 			tile.m_playerId = 0;
 			tile.m_resource1 = ResourceTypes.Empty;
 			tile.m_territoryType = TerritoryTypes.Land;
 			tile.m_resourceToken.SetActive(false);
+			tile.m_factionToken.SetActive(false);
 			// reset tile values as appropriate ....
 		}
+
+		m_territories.Clear();
+		m_resourceTerritories.Clear();
+		m_attackableTerritories.Clear();
+		m_playerTerritories.Clear();
+		m_selectedTeritorry = null;
+		m_targetTerritory = null;
 	}
 }

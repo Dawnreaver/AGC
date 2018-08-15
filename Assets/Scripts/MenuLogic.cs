@@ -155,6 +155,7 @@ public class MenuLogic : MonoBehaviour
 		m_createNewGameScreen.SetActive(false);
 		m_mainMenuScreen.SetActive(false);
 		m_loadingGame = true;
+		m_gameLogic.GenerateBoard();
 	}
 
 	public void StartSession()
@@ -421,7 +422,7 @@ public class MenuLogic : MonoBehaviour
 		m_winLoosePanel.SetActive(false);
 		m_inGameUi.SetActive(false);
 		m_mainMenuScreen.SetActive(true);
-
+		m_gameLogic.ResetGame();
 	}
 	public void EnableTurnButton()
 	{
