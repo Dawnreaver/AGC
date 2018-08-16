@@ -23,7 +23,6 @@ public class BaseTile : MonoBehaviour
     // base tile colour // adjust interactive tiles on your own turn 
     public Color m_baseTileColour;
 
-
     // counter colour
     public Color m_baseCounterColour = Color.black;
     public Color m_modifiedCounterColour = Color.blue;
@@ -131,7 +130,7 @@ public class BaseTile : MonoBehaviour
         }
     }
 
-    public void SetTokenColor (Color color)
+    public void SetTokenColor(Color color)
     {
         m_factionToken.GetComponent<Renderer>().material.color = color;
     }
@@ -172,21 +171,7 @@ public class BaseTile : MonoBehaviour
         m_numberTens.sprite = m_counterSprites[a];
         m_numberSingles.sprite = m_counterSprites[b];
     }
-    /*public void RandomlyAssignResource()
-    {
-        switch(m_tileType)
-        {
-            case TileTypes.Land :
-                name = "LandTile";
-                m_resource1 = GetRandomEnum<Resources>(2,0);
-            break;
 
-            case TileTypes.Water :
-                name = "WaterTile";
-                m_resource1 = GetRandomEnum<Resources>(0,2);
-            break;
-        }
-    } */
     void SelectTerritory()
     {
         if(!m_selected)
@@ -216,7 +201,7 @@ public class BaseTile : MonoBehaviour
         m_gameLogic.SelectMovementTerritory(this);
     }
 
-    public void ConquerTile( Material newFaction)
+    public void ConquerTile(Material newFaction)
     {
         m_factionMaterial = newFaction;
         SetFaction(m_factionMaterial);

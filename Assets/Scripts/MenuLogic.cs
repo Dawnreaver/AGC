@@ -83,10 +83,8 @@ public class MenuLogic : MonoBehaviour
 		m_pointerEventData = new PointerEventData(m_eventSystem);
 		//Set the Pointer Event Position to that of the mouse position
 		m_pointerEventData.position = Input.mousePosition;
-
 		//Create a list of Raycast Results
 		List<RaycastResult> results = new List<RaycastResult>();
-
 		//Raycast using the Graphics Raycaster and mouse click position
 		m_raycaster.Raycast(m_pointerEventData, results);
 
@@ -127,11 +125,6 @@ public class MenuLogic : MonoBehaviour
 		UpdateArmySliderText();
 		UpdateTurnButton();
 	}
-	// open main menu
-	// create new game screen
-	// load game
-	// in game
-
 
 	public void InitializeMenu()
 	{
@@ -228,7 +221,6 @@ public class MenuLogic : MonoBehaviour
 		{
 			m_selectedTeritorryResourceText.text = "";
 		}
-		
 
 		if(m_gameLogic.m_turnPhase == TurnPhases.Recruitment)
 		{
@@ -432,7 +424,6 @@ public class MenuLogic : MonoBehaviour
 	{
 		m_turnButton.SetActive(false);
 	}
-
 	void SetResourceIcon(BaseTile tile, Image targetImage)
 	{
 		targetImage.gameObject.SetActive(true);
