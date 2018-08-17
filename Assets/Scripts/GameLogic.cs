@@ -5,6 +5,7 @@ public enum TerritoryTypes {Land, Water}
 public enum ResourceTypes {Fish, Empty, Grain, Wine, Armor, Helmet, Weapon, Gold}
 public enum GamePhases { InMenues, SetupPhase, GamePhase, EndGamePhase};
 public enum TurnPhases { Idle, Recruitment, Attack, Movement};
+public enum PlayerTurn {Human, Ai};
 public class GameLogic : MonoBehaviour 
 {
 	public bool m_debug = false;
@@ -421,6 +422,11 @@ public class GameLogic : MonoBehaviour
 	public void SetActivePlayer()
 	{
 		m_playerIndex = IncreaseValue(m_playerIndex, m_factions);
+
+		if(m_factionList[m_playerIndex-1].m_isAiControlled)
+		{
+			
+		}
 	}
 
 	void SelectPlayerTerritories()
