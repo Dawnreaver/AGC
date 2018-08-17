@@ -64,6 +64,8 @@ public class GameLogic : MonoBehaviour
 	// player variables
 	public GameObject m_playerPrefab;
 
+	public PlayerTurn m_playerTurn; 
+
 	// game options
 	private void Awake()
 	{
