@@ -424,10 +424,14 @@ public class GameLogic : MonoBehaviour
 	public void SetActivePlayer()
 	{
 		m_playerIndex = IncreaseValue(m_playerIndex, m_factions);
-
+		// check if the next player is controlled by a human or by Ai
 		if(m_factionList[m_playerIndex-1].m_isAiControlled)
 		{
-			
+			m_playerTurn = PlayerTurn.Ai;
+		}
+		else
+		{
+			m_playerTurn = PlayerTurn.Human;
 		}
 	}
 
@@ -674,7 +678,7 @@ public class GameLogic : MonoBehaviour
 			defendedTerritory.m_playerId = attackingTerritory.m_playerId;
 			if(IsPlayerDefeated(defenderPlayerID))
 			{
-				m_menuLogic.m_uiNotification.text = "Player "+defenderPlayerID+" was defeated.";
+				m_menuLogic.m_uiNotification.text = "Player "+defenderPlayerID+" was vanquished.";
 				//Debug.Log("Player "+defenderPlayerID+" was defeated.");
 				m_factionList[defenderPlayerID-1].m_isDefeated = 1;//Set the player to defeated
 				//m_factionList.RemoveAt(defenderPlayerID-1);

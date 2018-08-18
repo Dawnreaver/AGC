@@ -100,6 +100,10 @@ public class MenuLogic : MonoBehaviour
 	}
 	void FixedUpdate() 
 	{
+		if(Input.GetKeyUp(KeyCode.T))
+		{
+			m_gameLogic.AdvanceTurnOrder();
+		}
 		if(m_loadingGame)
 		{
 			m_loadingTime += 1.0f*Time.deltaTime;
