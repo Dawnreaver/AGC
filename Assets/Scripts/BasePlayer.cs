@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class BasePlayer : MonoBehaviour 
 {
+	public bool m_myFaction;
 	public int m_playerIndex;
 	public bool m_isAiControlled;
 	public string m_factionName;

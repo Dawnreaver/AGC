@@ -126,8 +126,8 @@ public class MenuLogic : MonoBehaviour
 		{
 			UpdateStatusPanel();
 		}
-		UpdateArmySliderText();
-		UpdateTurnButton();
+		//UpdateTurnButton();
+		UpdateInterfaceElements();
 	}
 
 	public void InitializeMenu()
@@ -144,6 +144,18 @@ public class MenuLogic : MonoBehaviour
 		m_mainMenuScreen.SetActive(false);
 
 		// Adjust the UI Player Placeholders
+		AddBasePlayers();
+		for( int a = 0; a < m_uiPlayers.Count; a++)
+		{
+			if( a < m_gameLogic.m_factions)
+			{
+				m_uiPlayers[a].SetActive(true);
+			}
+			else
+			{
+				m_uiPlayers[a].SetActive(false);
+			}
+		}
 		SetGameCreationUIPlayers();
 	}
 
@@ -153,6 +165,7 @@ public class MenuLogic : MonoBehaviour
 		m_createNewGameScreen.SetActive(false);
 		m_mainMenuScreen.SetActive(false);
 		m_loadingGame = true;
+		
 	}
 
 	public void StartSession()
@@ -172,18 +185,18 @@ public class MenuLogic : MonoBehaviour
 		switch(m_gameLogic.m_turnPhase)
 		{
 			case TurnPhases.Idle:
-				m_turnPhaseIndicator.sprite = null;
-			break;
-			case TurnPhases.Recruitment :
 				m_turnPhaseIndicator.sprite = m_turnPhaseSprites[0];
 			break;
-
-			case TurnPhases.Attack :
+			case TurnPhases.Recruitment :
 				m_turnPhaseIndicator.sprite = m_turnPhaseSprites[1];
 			break;
 
-			case TurnPhases.Movement :
+			case TurnPhases.Attack :
 				m_turnPhaseIndicator.sprite = m_turnPhaseSprites[2];
+			break;
+
+			case TurnPhases.Movement :
+				m_turnPhaseIndicator.sprite = m_turnPhaseSprites[3];
 			break;
 		}
 		SetPlayerTurnIndicator();
@@ -280,7 +293,7 @@ public class MenuLogic : MonoBehaviour
 		}
 	}
 
-	void UpdateTurnButton()
+	/*void UpdateTurnButton()
 	{
 		if(m_gameLogic.m_turnOrder == 1 || m_gameLogic.m_gamePhase == GamePhases.InMenues)
 		{
@@ -290,7 +303,7 @@ public class MenuLogic : MonoBehaviour
 		{
 			m_turnButton.SetActive(true);
 		}
-	}
+	}*/
 
 	void UpdateTargetTerritoryPanel()
 	{
@@ -351,6 +364,12 @@ public class MenuLogic : MonoBehaviour
 		}
 	}
 
+	void AddBasePlayers()
+	{
+		m_gameLogic.m_factionList.Add(m_uiPlayers[0].GetComponent<GameCreationUIPlayer>().m_faction);
+		m_gameLogic.m_factionList.Add(m_uiPlayers[1].GetComponent<GameCreationUIPlayer>().m_faction);
+	}
+
 	public void SetGameCreationUIPlayers()
 	{
 		foreach (GameObject player in m_uiPlayers)
@@ -359,7 +378,7 @@ public class MenuLogic : MonoBehaviour
 		}
 		if(m_gameLogic.m_playerIndex < m_uiPlayers.Count)
 		{
-			 m_addUIPlayerButton.SetActive(true);
+			m_addUIPlayerButton.SetActive(true);
 		}
 	}
 	
@@ -367,6 +386,60 @@ public class MenuLogic : MonoBehaviour
 	{
 		m_playerTurnIndicatorBackground.color = m_gameLogic.m_factionList[m_gameLogic.m_playerIndex-1].m_factionColor;
 		m_playerTurnIndicatorIcon.sprite = m_gameLogic.m_factionIcons[m_gameLogic.m_playerIndex-1];
+	}
+
+	// Update Interface Elements
+
+	void UpdateInterfaceElements()
+	{
+		// show selected territory panel
+		if(m_gameLogic.m_selectedTeritorry != null && m_gameLogic.m_playerTurn != PlayerTurn.Ai)
+		{
+			EnableSelectedTerritoryPanel();
+		}
+		else
+		{
+			DisableSelectedTerritoryPanel();
+		}
+
+		if(m_gameLogic.m_selectedTeritorry != null && m_gameLogic.m_targetTerritory != null && m_gameLogic.m_playerTurn != PlayerTurn.Ai)
+		{
+			EnableTargetTerritoryPanel();
+		}
+		else
+		{
+			DisableTargetTerritoryPanel();
+		}
+
+		// show army slider
+		if(m_gameLogic.m_selectedTeritorry != null && m_gameLogic.m_targetTerritory != null && m_gameLogic.m_selectedTeritorry.m_armyCount > 1 && m_gameLogic.m_playerTurn != PlayerTurn.Ai)
+		{
+			EnableArmySlider();
+		}
+		else
+		{
+			DisableArmySlider();
+		}
+
+		// Update turn button
+		if(m_gameLogic.m_turnOrder == 1 || m_gameLogic.m_gamePhase == GamePhases.InMenues || m_gameLogic.m_playerTurn == PlayerTurn.Ai)
+		{
+			m_turnButton.SetActive(false);
+		}
+		else
+		{
+			m_turnButton.SetActive(true);
+		}
+
+
+		// Update phase icon
+		if(m_gameLogic.m_gamePhase != GamePhases.InMenues)
+		{
+			SetPhaseIcon();
+		}
+
+		SetArmySlider();
+		UpdateArmySliderText();
 	}
 
 	/// ARMY SLIDER
