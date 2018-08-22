@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum AiAgentStates {AiDisabled, AiIdle, AiThinking, AiActing, AiFinishTurn}
+public enum AiAgentStates {AiDisabled, AiIdle, AiSettingUp, AiRecruiting, AiAttacking, AiMoving, AiFinishTurn}
 
 public class AIAgent : MonoBehaviour 
 {
@@ -37,10 +37,39 @@ public class AIAgent : MonoBehaviour
 		switch(m_aiAgentState)
 		{
 			case AiAgentStates.AiIdle :
-				if (m_myFaction.m_isAiControlled)
+				if (m_myFaction.m_isAiControlled && m_myFaction.m_isDefeated != 1)
 				{
 					Debug.Log("Ai Status: It's my turn!");
-					m_aiAgentState = AiAgentStates.AiThinking; 
+
+					switch(m_gameLogic.m_turnOrder)
+					{
+						case 1 :
+						// Recruitment and setup
+						if(m_gameLogic.m_gamePhase == GamePhases.SetupPhase)
+						{
+							// Setup the game board
+							m_aiAgentState = AiAgentStates.AiSettingUp;
+						}
+						else if(m_gameLogic.m_gamePhase == GamePhases.GamePhase)
+						{
+							// Distribute recruted troops
+							m_aiAgentState = AiAgentStates.AiRecruiting;
+						}
+						
+						break;
+						case 2 :
+						// Decide on an order attacks
+							m_aiAgentState = AiAgentStates.AiAttacking;
+						break;
+						case 3 :
+						// Move troops 
+							m_aiAgentState = AiAgentStates.AiMoving;
+						break;
+						
+						case 4 :
+							m_aiAgentState = AiAgentStates.AiFinishTurn;
+						break;
+					}
 				}
 				if (!m_myFaction.m_isAiControlled)
 				{
@@ -48,7 +77,7 @@ public class AIAgent : MonoBehaviour
 				}
 			break;
 			
-			case AiAgentStates.AiThinking :
+			case AiAgentStates.AiSettingUp :
 
 				CheckIfBusy();
 				if(m_notBusy)
@@ -58,7 +87,7 @@ public class AIAgent : MonoBehaviour
 				}
 			break;
 
-			case AiAgentStates.AiActing :
+			case AiAgentStates.AiRecruiting :
 				CheckIfBusy();
 				if(m_notBusy)
 				{
@@ -82,6 +111,9 @@ public class AIAgent : MonoBehaviour
 			break;
 		}
 	}
+
+// Todo: Create coroutines to have the ai act
+// Co-Routines should control if the ai is still busy -> m_notBusy
 
 	bool CheckForMyTurn()
 	{
@@ -119,23 +151,17 @@ public class AIAgent : MonoBehaviour
 	{
 		//SetActionTimer();
 		Debug.Log ("Ai Status: I'm thinking about my turn");
-		m_aiAgentState = AiAgentStates.AiActing;
 	}
 
 	void AiIsTakingAnAction()
 	{
 		Debug.Log("Ai Status: I'm taking an action.");
-		m_aiAgentState = AiAgentStates.AiFinishTurn;
 	}
 
 	void AiIsFinishingTurn()
 	{	
 
 		Debug.Log("Ai Status: Finishing Turn.");
-		m_gameLogic.AdvanceTurnOrder();
-		m_gameLogic.AdvanceTurnOrder();
-		m_gameLogic.AdvanceTurnOrder();
-		m_aiAgentState = AiAgentStates.AiIdle;
 	}
 	
 	/*
