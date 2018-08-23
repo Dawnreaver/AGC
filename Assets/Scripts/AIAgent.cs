@@ -13,7 +13,7 @@ public class AIAgent : MonoBehaviour
 	public float m_actionTimerMax = 2.0f;
 	public float m_actionTimer = 0.0f;
 
-	public bool m_notBusy = false; 
+	public bool m_notBusy = true; 
 
 	
 	public AiAgentStates m_aiAgentState;
@@ -78,32 +78,57 @@ public class AIAgent : MonoBehaviour
 			break;
 			
 			case AiAgentStates.AiSettingUp :
-
-				CheckIfBusy();
-				if(m_notBusy)
+				if(!m_notBusy)
 				{
-					AiIsTinking();
-					SetActionTimer();
+					Debug.Log("Setup phase");
+					m_notBusy = false;
+					StartCoroutine("AiIsSettingUp");
 				}
+
+				// if no more troops can be set up, switch to the next round phase
 			break;
 
 			case AiAgentStates.AiRecruiting :
-				CheckIfBusy();
-				if(m_notBusy)
+				if(!m_notBusy)
 				{
-					AiIsTakingAnAction();
-					SetActionTimer();
+					Debug.Log("Recruitment phase");
+					m_notBusy = false;
+					StartCoroutine("AiIsRecruitingArmies");
+				}
+				// if no more troops can be recruited, switch to the next round phase
+			break;
+
+			case AiAgentStates.AiAttacking :
+				if(!m_notBusy)
+				{
+					Debug.Log("Attack phase");
+					m_notBusy = false;
+					StartCoroutine("AiIsAttacking");
 				}
 
+				// if the ai I is not attacking anymore, switch to the next phase
+			break;
+
+			case AiAgentStates.AiMoving :
+				if(!m_notBusy)
+				{
+					Debug.Log("Movement phase");
+					m_notBusy = false;
+					StartCoroutine("AiIsMoving");
+				}
+
+				// if the ai is not moving / can't move, switch to next phase
 			break;
 
 			case AiAgentStates.AiFinishTurn :
-				CheckIfBusy();
-				if(m_notBusy)
+				if(!m_notBusy)
 				{
-					AiIsFinishingTurn();
-					SetActionTimer();
+					Debug.Log("Finish turn");
+					m_notBusy = false;
+					StartCoroutine("AiIsFinishingTurn");
 				}
+
+				// wrapping up turn
 			break;
 
 			case AiAgentStates.AiDisabled :
@@ -114,6 +139,50 @@ public class AIAgent : MonoBehaviour
 
 // Todo: Create coroutines to have the ai act
 // Co-Routines should control if the ai is still busy -> m_notBusy
+
+	IEnumerator AiIsSettingUp()
+	{
+		yield return new  WaitForSeconds(2.0f);
+		Debug.Log("Ai is setting up armies");
+		m_aiAgentState = AiAgentStates.AiIdle;
+		m_gameLogic.AdvanceTurnOrder();
+		m_notBusy = true;
+	}
+
+	IEnumerator AiIsRecruitingArmies()
+	{
+		yield return new  WaitForSeconds(2.0f);
+		Debug.Log("Ai is recruiting armies...");
+		m_aiAgentState = AiAgentStates.AiAttacking;
+		m_gameLogic.AdvanceTurnOrder();
+		m_notBusy = true;
+	}
+
+	IEnumerator AiIsAttacking()
+	{
+		yield return new  WaitForSeconds(2.0f);
+		Debug.Log("Ai is attacking...");
+		m_aiAgentState = AiAgentStates.AiMoving;
+		m_gameLogic.AdvanceTurnOrder();
+		m_notBusy = true;
+	}
+
+	IEnumerator AiIsMoving()
+	{
+		yield return new  WaitForSeconds(2.0f);
+		Debug.Log("Ai is moving armies");
+		m_aiAgentState = AiAgentStates.AiFinishTurn;
+		m_gameLogic.AdvanceTurnOrder();
+		m_notBusy = true;
+	}
+
+	IEnumerator AiIsFinishingTurn()
+	{	
+		yield return new  WaitForSeconds(2.0f);
+		Debug.Log("Ai Status: Finishing Turn.");
+		m_gameLogic.AdvanceTurnOrder();
+		m_notBusy = true;
+	}
 
 	bool CheckForMyTurn()
 	{
@@ -145,23 +214,6 @@ public class AIAgent : MonoBehaviour
 	{
 		m_notBusy = false;
 		m_actionTimer = m_actionTimerMax;
-	}
-
-	void AiIsTinking()
-	{
-		//SetActionTimer();
-		Debug.Log ("Ai Status: I'm thinking about my turn");
-	}
-
-	void AiIsTakingAnAction()
-	{
-		Debug.Log("Ai Status: I'm taking an action.");
-	}
-
-	void AiIsFinishingTurn()
-	{	
-
-		Debug.Log("Ai Status: Finishing Turn.");
 	}
 	
 	/*
