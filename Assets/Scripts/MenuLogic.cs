@@ -143,7 +143,7 @@ public class MenuLogic : MonoBehaviour
 		m_createNewGameScreen.SetActive(true);
 		m_mainMenuScreen.SetActive(false);
 
-		// Adjust the UI Player Placeholders
+		// Adjust the UI player placeholders
 		AddBasePlayers();
 		for( int a = 0; a < m_uiPlayers.Count; a++)
 		{

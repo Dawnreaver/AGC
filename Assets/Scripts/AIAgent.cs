@@ -89,7 +89,7 @@ public class AIAgent : MonoBehaviour
 			break;
 
 			case AiAgentStates.AiRecruiting :
-				if(!m_notBusy)
+				if(m_notBusy)
 				{
 					Debug.Log("Recruitment phase");
 					m_notBusy = false;
@@ -99,7 +99,7 @@ public class AIAgent : MonoBehaviour
 			break;
 
 			case AiAgentStates.AiAttacking :
-				if(!m_notBusy)
+				if(m_notBusy)
 				{
 					Debug.Log("Attack phase");
 					m_notBusy = false;
@@ -110,7 +110,7 @@ public class AIAgent : MonoBehaviour
 			break;
 
 			case AiAgentStates.AiMoving :
-				if(!m_notBusy)
+				if(m_notBusy)
 				{
 					Debug.Log("Movement phase");
 					m_notBusy = false;
@@ -121,7 +121,7 @@ public class AIAgent : MonoBehaviour
 			break;
 
 			case AiAgentStates.AiFinishTurn :
-				if(!m_notBusy)
+				if(m_notBusy)
 				{
 					Debug.Log("Finish turn");
 					m_notBusy = false;
