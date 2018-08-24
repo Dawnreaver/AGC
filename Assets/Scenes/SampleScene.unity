@@ -5795,7 +5795,7 @@ MonoBehaviour:
   m_camera: {fileID: 282840813}
   m_menuLogic: {fileID: 1795396282}
   m_factions: 2
-  m_startArmySize: 9
+  m_startArmySize: 20
   m_randomlyPlaceArmies: 1
   m_factionList: []
   m_factionIcons:
@@ -7781,7 +7781,7 @@ MonoBehaviour:
   m_myFaction: {fileID: 0}
   m_actionTimerMax: 2
   m_actionTimer: 0
-  m_notBusy: 0
+  m_notBusy: 1
   m_aiAgentState: 1
 --- !u!1 &1221696360
 GameObject:
