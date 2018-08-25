@@ -5796,7 +5796,7 @@ MonoBehaviour:
   m_menuLogic: {fileID: 1795396282}
   m_factions: 2
   m_startArmySize: 12
-  m_randomlyPlaceArmies: 0
+  m_randomlyPlaceArmies: 1
   m_factionList: []
   m_factionIcons:
   - {fileID: 21300000, guid: 3c5eb54c84d43aa4c9de91832a5a383e, type: 3}

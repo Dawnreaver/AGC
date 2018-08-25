@@ -42,9 +42,9 @@ public class AIAgent : MonoBehaviour
 				{
 					Debug.Log("Ai Status: It's my turn!");
 
-					/*switch(m_gameLogic.m_turnOrder)
+					switch(m_gameLogic.m_turnPhase)
 					{
-						case 1 :*/
+						case TurnPhases.Recruitment :
 						// Recruitment and setup
 						if(m_gameLogic.m_gamePhase == GamePhases.SetupPhase)
 						{
@@ -56,21 +56,21 @@ public class AIAgent : MonoBehaviour
 							// Distribute recruted troops
 							m_aiAgentState = AiAgentStates.AiRecruiting;
 						}
-						/* 
+						
 						break;
-						case 2 :
+						case TurnPhases.Attack :
 						// Decide on an order attacks
 							m_aiAgentState = AiAgentStates.AiAttacking;
 						break;
-						case 3 :
+						case TurnPhases.Movement :
 						// Move troops 
 							m_aiAgentState = AiAgentStates.AiMoving;
 						break;
 						
-						case 4 :
+						case TurnPhases.Idle :
 							m_aiAgentState = AiAgentStates.AiFinishTurn;
 						break;
-					}*/
+					}
 				}
 				if (!m_myFaction.m_isAiControlled)
 				{

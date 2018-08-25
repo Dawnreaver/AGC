@@ -328,7 +328,11 @@ public class GameLogic : MonoBehaviour
 			{
 				case 1 :
 					SelectPlayerTerritories();
-					m_factionList[m_playerIndex-1].m_availableArmies = RecruitArmies();
+					if(m_playerTurn == PlayerTurn.Human)
+					{
+						m_factionList[m_playerIndex-1].m_availableArmies = RecruitArmies();
+					}
+					
 					m_menuLogic.SetNotification("Recruitment Phase");
 					m_turnPhase = TurnPhases.Recruitment;
 									//m_menuLogic.SetPhaseIcon();
@@ -487,7 +491,7 @@ public class GameLogic : MonoBehaviour
 			Debug.Log("No available armies remaining");
 		}
     }
-	int RecruitArmies() // other bonuses still need to be applied e.g. for owned continents 
+	public int RecruitArmies() // other bonuses still need to be applied e.g. for owned continents 
 	{
 		int recruitedArmies = 0;
 		if(m_playerTerritories.Count < m_minimumArmyTerritories)
