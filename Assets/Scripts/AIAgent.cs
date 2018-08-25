@@ -28,6 +28,7 @@ public class AIAgent : MonoBehaviour
 	{
 		if(CheckForMyTurn())
 		{
+			//Debug.Log(m_gameLogic.m_turnOrder);
 			AIAgentManageStates();
 		}
 	}
@@ -41,9 +42,9 @@ public class AIAgent : MonoBehaviour
 				{
 					Debug.Log("Ai Status: It's my turn!");
 
-					switch(m_gameLogic.m_turnOrder)
+					/*switch(m_gameLogic.m_turnOrder)
 					{
-						case 1 :
+						case 1 :*/
 						// Recruitment and setup
 						if(m_gameLogic.m_gamePhase == GamePhases.SetupPhase)
 						{
@@ -55,7 +56,7 @@ public class AIAgent : MonoBehaviour
 							// Distribute recruted troops
 							m_aiAgentState = AiAgentStates.AiRecruiting;
 						}
-						
+						/* 
 						break;
 						case 2 :
 						// Decide on an order attacks
@@ -69,7 +70,7 @@ public class AIAgent : MonoBehaviour
 						case 4 :
 							m_aiAgentState = AiAgentStates.AiFinishTurn;
 						break;
-					}
+					}*/
 				}
 				if (!m_myFaction.m_isAiControlled)
 				{
@@ -81,10 +82,11 @@ public class AIAgent : MonoBehaviour
 				if(m_notBusy)
 				{
 					Debug.Log("Setup phase");
+					Debug.Log(m_myFaction.m_availableArmies);
 					if(m_myFaction.m_availableArmies > 0)
 					{
-					m_notBusy = false;
-					StartCoroutine("AiIsSettingUp");
+						m_notBusy = false;
+						StartCoroutine("AiIsSettingUp");
 					}
 					else
 					{
@@ -100,8 +102,17 @@ public class AIAgent : MonoBehaviour
 				if(m_notBusy)
 				{
 					Debug.Log("Recruitment phase");
-					m_notBusy = false;
-					StartCoroutine("AiIsRecruitingArmies");
+					Debug.Log(m_myFaction.m_availableArmies);
+					if(m_myFaction.m_availableArmies > 0)
+					{
+						m_notBusy = false;
+						StartCoroutine("AiIsRecruitingArmies");
+					}
+					else
+					{
+						m_gameLogic.AdvanceTurnOrder();
+						m_aiAgentState = AiAgentStates.AiAttacking;
+					}
 				}
 				// if no more troops can be recruited, switch to the next round phase
 			break;
@@ -153,10 +164,7 @@ public class AIAgent : MonoBehaviour
 		yield return new  WaitForSeconds(2.0f);
 		Debug.Log("Ai is setting up armies");
 		// pick a random territory I own 
-		BaseTile rndTile = m_gameLogic.m_playerTerritories[Random.Range(1,m_gameLogic.m_playerTerritories.Count)].GetComponent<BaseTile>();
-		rndTile.m_armyCount++;
-		m_myFaction.m_availableArmies--;
-		rndTile.SetUnitCount();
+		AddArmyToRandomTerritory();
 		m_aiAgentState = AiAgentStates.AiIdle;
 		m_gameLogic.AdvanceTurnOrder();
 		m_notBusy = true;
@@ -166,16 +174,26 @@ public class AIAgent : MonoBehaviour
 	{
 		yield return new  WaitForSeconds(2.0f);
 		Debug.Log("Ai is recruiting armies...");
-		m_aiAgentState = AiAgentStates.AiIdle;;
-		m_gameLogic.AdvanceTurnOrder();
+		AddArmyToRandomTerritory();
+		m_aiAgentState = AiAgentStates.AiRecruiting;;
+		//m_gameLogic.AdvanceTurnOrder();
 		m_notBusy = true;
+	}
+
+	void AddArmyToRandomTerritory()
+	{
+		BaseTile rndTile = m_gameLogic.m_playerTerritories[Random.Range(1,m_gameLogic.m_playerTerritories.Count)].GetComponent<BaseTile>();
+		Debug.Log(rndTile.gameObject.name);
+		rndTile.m_armyCount++;
+		m_myFaction.m_availableArmies--;
+		rndTile.SetUnitCount();
 	}
 
 	IEnumerator AiIsAttacking()
 	{
 		yield return new  WaitForSeconds(2.0f);
 		Debug.Log("Ai is attacking...");
-		m_aiAgentState = AiAgentStates.AiIdle;;
+		m_aiAgentState = AiAgentStates.AiMoving;;
 		m_gameLogic.AdvanceTurnOrder();
 		m_notBusy = true;
 	}
@@ -184,7 +202,7 @@ public class AIAgent : MonoBehaviour
 	{
 		yield return new  WaitForSeconds(2.0f);
 		Debug.Log("Ai is moving armies");
-		m_aiAgentState = AiAgentStates.AiIdle;;
+		m_aiAgentState = AiAgentStates.AiFinishTurn;;
 		m_gameLogic.AdvanceTurnOrder();
 		m_notBusy = true;
 	}
