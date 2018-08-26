@@ -330,11 +330,9 @@ public class GameLogic : MonoBehaviour
 				case 1 :
 					SelectPlayerTerritories();
 
-						m_factionList[m_playerIndex-1].m_availableArmies = RecruitArmies();
-
-					
 					m_menuLogic.SetNotification("Recruitment Phase");
 					m_turnPhase = TurnPhases.Recruitment;
+					m_factionList[m_playerIndex-1].m_availableArmies = RecruitArmies();
 									//m_menuLogic.SetPhaseIcon();
 				break;
 

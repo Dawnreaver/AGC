@@ -6,7 +6,7 @@ public enum AiAgentStates {AiDisabled, AiIdle, AiSettingUp, AiRecruiting, AiAtta
 
 public class AIAgent : MonoBehaviour 
 {
-
+	public bool m_aiDebug;
 	public GameLogic m_gameLogic;
 	public BasePlayer m_myFaction;
 
@@ -40,8 +40,11 @@ public class AIAgent : MonoBehaviour
 			case AiAgentStates.AiIdle :
 				if (m_myFaction.m_isAiControlled && m_myFaction.m_isDefeated != 1)
 				{
-					Debug.Log("Ai Status: It's my turn!");
-
+					if(m_aiDebug)
+					{
+						Debug.Log("Ai Status: It's my turn!");
+					}
+					
 					switch(m_gameLogic.m_turnPhase)
 					{
 						case TurnPhases.Recruitment :
@@ -81,8 +84,11 @@ public class AIAgent : MonoBehaviour
 			case AiAgentStates.AiSettingUp :
 				if(m_notBusy)
 				{
-					Debug.Log("Setup phase");
-					Debug.Log(m_myFaction.m_availableArmies);
+					if(m_aiDebug)
+					{
+						Debug.Log("Setup phase");
+						Debug.Log(m_myFaction.m_availableArmies);
+					}
 					if(m_myFaction.m_availableArmies > 0)
 					{
 						m_notBusy = false;
@@ -101,7 +107,12 @@ public class AIAgent : MonoBehaviour
 			case AiAgentStates.AiRecruiting :
 				if(m_notBusy)
 				{
-					Debug.Log("Recruitment phase");
+					if(m_aiDebug)
+					{
+						Debug.Log("Recruitment phase");
+						Debug.Log(m_myFaction.m_availableArmies);
+					}
+					Debug.Log(m_myFaction.m_availableArmies > 0);
 					Debug.Log(m_myFaction.m_availableArmies);
 					if(m_myFaction.m_availableArmies > 0)
 					{
@@ -114,13 +125,16 @@ public class AIAgent : MonoBehaviour
 						m_aiAgentState = AiAgentStates.AiAttacking;
 					}
 				}
-				// if no more troops can be recruited, switch to the next round phase
 			break;
 
 			case AiAgentStates.AiAttacking :
 				if(m_notBusy)
 				{
-					Debug.Log("Attack phase");
+					if(m_aiDebug)
+					{
+						Debug.Log("Attack phase");
+					}
+					
 					m_notBusy = false;
 					StartCoroutine("AiIsAttacking");
 				}
@@ -131,7 +145,11 @@ public class AIAgent : MonoBehaviour
 			case AiAgentStates.AiMoving :
 				if(m_notBusy)
 				{
-					Debug.Log("Movement phase");
+					if(m_aiDebug)
+					{
+						Debug.Log("Movement phase");
+					}
+					
 					m_notBusy = false;
 					StartCoroutine("AiIsMoving");
 				}
@@ -142,7 +160,10 @@ public class AIAgent : MonoBehaviour
 			case AiAgentStates.AiFinishTurn :
 				if(m_notBusy)
 				{
-					Debug.Log("Finish turn");
+					if(m_aiDebug)
+					{
+						Debug.Log("Finish turn");
+					}
 					m_notBusy = false;
 					StartCoroutine("AiIsFinishingTurn");
 				}
@@ -162,7 +183,10 @@ public class AIAgent : MonoBehaviour
 	IEnumerator AiIsSettingUp()
 	{
 		yield return new  WaitForSeconds(2.0f);
-		Debug.Log("Ai is setting up armies");
+		if(m_aiDebug)
+		{
+			Debug.Log("Ai is setting up armies");
+		}
 		// pick a random territory I own 
 		AddArmyToRandomTerritory();
 		m_aiAgentState = AiAgentStates.AiIdle;
@@ -173,7 +197,10 @@ public class AIAgent : MonoBehaviour
 	IEnumerator AiIsRecruitingArmies()
 	{
 		yield return new  WaitForSeconds(2.0f);
-		Debug.Log("Ai is recruiting armies...");
+		if(m_aiDebug)
+		{
+			Debug.Log("Ai is recruiting armies...");
+		}
 		AddArmyToRandomTerritory();
 		m_aiAgentState = AiAgentStates.AiRecruiting;;
 		//m_gameLogic.AdvanceTurnOrder();
@@ -192,7 +219,10 @@ public class AIAgent : MonoBehaviour
 	IEnumerator AiIsAttacking()
 	{
 		yield return new  WaitForSeconds(2.0f);
-		Debug.Log("Ai is attacking...");
+		if(m_aiDebug)
+		{
+			Debug.Log("Ai is attacking...");
+		}
 		m_aiAgentState = AiAgentStates.AiMoving;;
 		m_gameLogic.AdvanceTurnOrder();
 		m_notBusy = true;
@@ -201,7 +231,10 @@ public class AIAgent : MonoBehaviour
 	IEnumerator AiIsMoving()
 	{
 		yield return new  WaitForSeconds(2.0f);
-		Debug.Log("Ai is moving armies");
+		if(m_aiDebug)
+		{
+			Debug.Log("Ai is moving armies");
+		}
 		m_aiAgentState = AiAgentStates.AiFinishTurn;
 		m_gameLogic.AdvanceTurnOrder();
 		m_notBusy = true;
@@ -210,7 +243,10 @@ public class AIAgent : MonoBehaviour
 	IEnumerator AiIsFinishingTurn()
 	{	
 		yield return new  WaitForSeconds(2.0f);
-		Debug.Log("Ai Status: Finishing Turn.");
+		if(m_aiDebug)
+		{
+			Debug.Log("Ai Status: Finishing Turn.");
+		}
 		m_aiAgentState = AiAgentStates.AiIdle;
 		m_gameLogic.AdvanceTurnOrder();
 		m_notBusy = true;
@@ -220,7 +256,7 @@ public class AIAgent : MonoBehaviour
 	{
 		bool isMyTurn = false;
 
-		Debug.Log("Ai Index = "+m_myFaction.m_playerIndex + " Player Index ="+m_gameLogic.m_playerIndex);
+		//Debug.Log("Ai Index = "+m_myFaction.m_playerIndex + " Player Index ="+m_gameLogic.m_playerIndex);
 		if(m_gameLogic.m_playerIndex == m_myFaction.m_playerIndex)
 		{
 			isMyTurn = true;
@@ -239,7 +275,11 @@ public class AIAgent : MonoBehaviour
 		{
 			m_actionTimer = 0.0f;
 			m_notBusy = true;
-			Debug.Log("Ai is free to perform next action...");
+
+			if(m_aiDebug)
+			{
+				Debug.Log("Ai is free to perform next action...");
+			}
 		}
 	}
 
