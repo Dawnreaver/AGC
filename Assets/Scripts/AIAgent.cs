@@ -202,7 +202,7 @@ public class AIAgent : MonoBehaviour
 	{
 		yield return new  WaitForSeconds(2.0f);
 		Debug.Log("Ai is moving armies");
-		m_aiAgentState = AiAgentStates.AiFinishTurn;;
+		m_aiAgentState = AiAgentStates.AiFinishTurn;
 		m_gameLogic.AdvanceTurnOrder();
 		m_notBusy = true;
 	}
@@ -211,6 +211,7 @@ public class AIAgent : MonoBehaviour
 	{	
 		yield return new  WaitForSeconds(2.0f);
 		Debug.Log("Ai Status: Finishing Turn.");
+		m_aiAgentState = AiAgentStates.AiIdle;
 		m_gameLogic.AdvanceTurnOrder();
 		m_notBusy = true;
 	}
@@ -219,6 +220,7 @@ public class AIAgent : MonoBehaviour
 	{
 		bool isMyTurn = false;
 
+		Debug.Log("Ai Index = "+m_myFaction.m_playerIndex + " Player Index ="+m_gameLogic.m_playerIndex);
 		if(m_gameLogic.m_playerIndex == m_myFaction.m_playerIndex)
 		{
 			isMyTurn = true;

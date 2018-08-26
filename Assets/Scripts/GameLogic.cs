@@ -18,6 +18,7 @@ public class GameLogic : MonoBehaviour
 	[Range(1,40)]
 	public int m_startArmySize = 20; // make start armies dependent on the number of players, see risk rule book
 	public bool m_randomlyPlaceArmies = false;
+	public List<BasePlayer> m_playerList = new List<BasePlayer>();
 	public List<BasePlayer> m_factionList = new List<BasePlayer>();
 	public List<Sprite> m_factionIcons = new List<Sprite>();
 	public bool m_randomBoard = false;
@@ -328,10 +329,9 @@ public class GameLogic : MonoBehaviour
 			{
 				case 1 :
 					SelectPlayerTerritories();
-					if(m_playerTurn == PlayerTurn.Human)
-					{
+
 						m_factionList[m_playerIndex-1].m_availableArmies = RecruitArmies();
-					}
+
 					
 					m_menuLogic.SetNotification("Recruitment Phase");
 					m_turnPhase = TurnPhases.Recruitment;
@@ -493,6 +493,7 @@ public class GameLogic : MonoBehaviour
     }
 	public int RecruitArmies() // other bonuses still need to be applied e.g. for owned continents 
 	{
+		Debug.Log("Recruiting Armies called");
 		int recruitedArmies = 0;
 		if(m_playerTerritories.Count < m_minimumArmyTerritories)
 		{
@@ -502,6 +503,7 @@ public class GameLogic : MonoBehaviour
 		{
 			recruitedArmies = m_playerTerritories.Count / m_armieRecruitmentFactor;
 		}
+		Debug.Log("Armies: "+recruitedArmies);
 		return recruitedArmies;
 	}
     public void RemoveArmies()
