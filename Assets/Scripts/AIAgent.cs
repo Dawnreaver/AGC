@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum AiAgentStates {AiDisabled, AiIdle, AiSettingUp, AiRecruiting, AiAttacking, AiMoving, AiFinishTurn}
+public enum AiAgentStates {AiDisabled, AiWaitingForResources, AiIdle, AiSettingUp, AiRecruiting, AiAttacking, AiMoving, AiFinishTurn}
 
 public class AIAgent : MonoBehaviour 
 {
@@ -17,7 +17,6 @@ public class AIAgent : MonoBehaviour
 
 	
 	public AiAgentStates m_aiAgentState;
-
 
 	void Awake()
 	{
@@ -37,29 +36,132 @@ public class AIAgent : MonoBehaviour
 	{
 		switch(m_aiAgentState)
 		{
-			case AiAgentStates.AiIdle :
+			case AiAgentStates.AiWaitingForResources :
 				if (m_myFaction.m_isAiControlled && m_myFaction.m_isDefeated != 1)
+				{
+					if(m_myFaction.m_availableArmies == 0)
+					{
+						Debug.Log("Still waiting for armies");
+					}
+					else
+					{
+						if(m_aiDebug)
+						{
+							Debug.Log("Ai Status: Starting my turn!");
+						}
+						m_aiAgentState = AiAgentStates.AiRecruiting;
+					}
+				}
+				if (!m_myFaction.m_isAiControlled)
+				{
+					m_aiAgentState = AiAgentStates.AiDisabled;
+				}
+			break;
+
+			case AiAgentStates.AiRecruiting :
+				if(m_notBusy)
+				{
+					// Is the recruitment in the Setup phase
+					if(m_gameLogic.m_gamePhase == GamePhases.SetupPhase)
+					{
+						if(m_myFaction.m_availableArmies > 0)
+						{
+							m_notBusy = false;
+							StartCoroutine("AiIsSettingUp");
+						}
+						else
+						{
+							m_gameLogic.AdvanceTurnOrder();
+							m_aiAgentState = AiAgentStates.AiWaitingForResources;
+						}
+					}
+					// Is the recrutemnt in the game phase
+					else if(m_gameLogic.m_gamePhase == GamePhases.GamePhase)
+					{
+						if(m_myFaction.m_availableArmies > 0)
+						{
+							m_notBusy = false;
+							StartCoroutine("AiIsRecruitingArmies");
+						}
+						else
+						{
+							m_gameLogic.AdvanceTurnOrder();
+							m_aiAgentState = AiAgentStates.AiAttacking;
+						}
+					}
+				}
+			break;
+
+			case AiAgentStates.AiAttacking :
+				if(m_notBusy)
+				{
+					m_notBusy = false;
+					StartCoroutine("AiIsAttacking");
+				}
+
+				// if the ai I is not attacking anymore, switch to the next phase
+			break;
+
+			case AiAgentStates.AiMoving :
+				if(m_notBusy)
+				{
+					m_notBusy = false;
+					StartCoroutine("AiIsMoving");
+				}
+
+				// if the ai is not moving / can't move, switch to next phase
+			break;
+
+			case AiAgentStates.AiFinishTurn :
+				if(m_notBusy)
+				{
+					m_notBusy = false;
+					Debug.Log("Getting here");
+					StartCoroutine("AiIsFinishingTurn");
+				}
+
+				// wrapping up turn
+			break;
+
+			case AiAgentStates.AiDisabled :
+				Debug.Log("Ai Status: Taking a break.");
+			break;
+		}
+		/*switch(m_aiAgentState)
+		{
+			case AiAgentStates.AiWaitingForResources :
+				if(m_myFaction.m_availableArmies == 0)
+				{
+					Debug.Log("Still waiting for armies");
+				}
+				else
 				{
 					if(m_aiDebug)
 					{
-						Debug.Log("Ai Status: It's my turn!");
+						Debug.Log("Ai Status: Starting my turn!");
 					}
+					m_aiAgentState = AiAgentStates.AiIdle;
+				}
+			break;
+					
+			case AiAgentStates.AiIdle :
+				if (m_myFaction.m_isAiControlled && m_myFaction.m_isDefeated != 1)
+				{
 					
 					switch(m_gameLogic.m_turnPhase)
 					{
 						case TurnPhases.Recruitment :
-						// Recruitment and setup
-						if(m_gameLogic.m_gamePhase == GamePhases.SetupPhase)
-						{
-							// Setup the game board
-							m_aiAgentState = AiAgentStates.AiSettingUp;
-						}
-						else if(m_gameLogic.m_gamePhase == GamePhases.GamePhase)
-						{
-							// Distribute recruted troops
-							m_aiAgentState = AiAgentStates.AiRecruiting;
-						}
-						
+							// Recruitment and setup
+							if(m_gameLogic.m_gamePhase == GamePhases.SetupPhase)
+							{
+								// Setup the game board
+								m_aiAgentState = AiAgentStates.AiSettingUp;
+							}
+							else if(m_gameLogic.m_gamePhase == GamePhases.GamePhase)
+							{
+								// Distribute recruted troops
+								m_aiAgentState = AiAgentStates.AiRecruiting;
+							}
 						break;
 						case TurnPhases.Attack :
 						// Decide on an order attacks
@@ -100,7 +202,6 @@ public class AIAgent : MonoBehaviour
 						m_aiAgentState = AiAgentStates.AiIdle;
 					}
 				}
-
 				// if no more troops can be set up, switch to the next round phase
 			break;
 
@@ -112,8 +213,6 @@ public class AIAgent : MonoBehaviour
 						Debug.Log("Recruitment phase");
 						Debug.Log(m_myFaction.m_availableArmies);
 					}
-					Debug.Log(m_myFaction.m_availableArmies > 0);
-					Debug.Log(m_myFaction.m_availableArmies);
 					if(m_myFaction.m_availableArmies > 0)
 					{
 						m_notBusy = false;
@@ -174,7 +273,7 @@ public class AIAgent : MonoBehaviour
 			case AiAgentStates.AiDisabled :
 				Debug.Log("Ai Status: Taking a break.");
 			break;
-		}
+		}*/
 	}
 
 // Todo: Create coroutines to have the ai act
@@ -182,14 +281,13 @@ public class AIAgent : MonoBehaviour
 
 	IEnumerator AiIsSettingUp()
 	{
-		yield return new  WaitForSeconds(2.0f);
+		yield return new  WaitForSeconds(0.5f); // 2.0f
 		if(m_aiDebug)
 		{
 			Debug.Log("Ai is setting up armies");
 		}
 		// pick a random territory I own 
 		AddArmyToRandomTerritory();
-		m_aiAgentState = AiAgentStates.AiIdle;
 		m_gameLogic.AdvanceTurnOrder();
 		m_notBusy = true;
 	}
@@ -202,7 +300,7 @@ public class AIAgent : MonoBehaviour
 			Debug.Log("Ai is recruiting armies...");
 		}
 		AddArmyToRandomTerritory();
-		m_aiAgentState = AiAgentStates.AiRecruiting;;
+		//m_aiAgentState = AiAgentStates.AiRecruiting;;
 		//m_gameLogic.AdvanceTurnOrder();
 		m_notBusy = true;
 	}
@@ -236,7 +334,7 @@ public class AIAgent : MonoBehaviour
 			Debug.Log("Ai is moving armies");
 		}
 		m_aiAgentState = AiAgentStates.AiFinishTurn;
-		m_gameLogic.AdvanceTurnOrder();
+		//m_gameLogic.AdvanceTurnOrder();
 		m_notBusy = true;
 	}
 
@@ -247,8 +345,8 @@ public class AIAgent : MonoBehaviour
 		{
 			Debug.Log("Ai Status: Finishing Turn.");
 		}
-		m_aiAgentState = AiAgentStates.AiIdle;
-		m_gameLogic.AdvanceTurnOrder();
+		m_aiAgentState = AiAgentStates.AiWaitingForResources;
+		m_gameLogic.AdvanceTurnOrder();	
 		m_notBusy = true;
 	}
 

@@ -18,7 +18,7 @@ public class GameLogic : MonoBehaviour
 	[Range(1,40)]
 	public int m_startArmySize = 20; // make start armies dependent on the number of players, see risk rule book
 	public bool m_randomlyPlaceArmies = false;
-	public List<BasePlayer> m_playerList = new List<BasePlayer>();
+	public List<BasePlayer> m_players = new List<BasePlayer>();
 	public List<BasePlayer> m_factionList = new List<BasePlayer>();
 	public List<Sprite> m_factionIcons = new List<Sprite>();
 	public bool m_randomBoard = false;
@@ -323,16 +323,45 @@ public class GameLogic : MonoBehaviour
 	// Player Turnorder Logic
 	public void AdvanceTurnOrder()
 	{
-		if(m_gamePhase == GamePhases.GamePhase)
+		if( m_gamePhase == GamePhases.SetupPhase)
+		{
+			switch(m_turnOrder)
+			{
+				case 1 :
+					SelectPlayerTerritories();
+					m_menuLogic.SetNotification("Setup Phase");
+					m_turnOrder = 3;
+									//m_menuLogic.SetPhaseIcon();
+				break;
+
+				case 4 :
+				
+					DeselectTerritories();
+					SetArmies();
+					SetActivePlayer();
+					m_menuLogic.SetNotification("Player "+m_playerIndex+" turn.");
+					if(GameSetupCheck())
+					{
+						SetGamePhaseIndex(2);
+					}
+									//m_menuLogic.SetPhaseIcon();
+					//StartCoroutine("AutoAdvanceTurn",0.5f);
+				break;
+			}
+			m_turnOrder = IncreaseValue(m_turnOrder, 4);
+		}
+		else if(m_gamePhase == GamePhases.GamePhase)
 		{
 			switch(m_turnOrder)
 			{
 				case 1 :
 					SelectPlayerTerritories();
 
+						m_factionList[m_playerIndex-1].m_availableArmies = RecruitArmies();
+
+					
 					m_menuLogic.SetNotification("Recruitment Phase");
 					m_turnPhase = TurnPhases.Recruitment;
-					m_factionList[m_playerIndex-1].m_availableArmies = RecruitArmies();
 									//m_menuLogic.SetPhaseIcon();
 				break;
 
@@ -373,33 +402,7 @@ public class GameLogic : MonoBehaviour
 			}
 			m_turnOrder = IncreaseValue(m_turnOrder, 4);
 		}
-		else if( m_gamePhase == GamePhases.SetupPhase)
-		{
-			switch(m_turnOrder)
-			{
-				case 1 :
-					SelectPlayerTerritories();
-					m_menuLogic.SetNotification("Setup Phase");
-					m_turnOrder = 3;
-									//m_menuLogic.SetPhaseIcon();
-				break;
-
-				case 4 :
-				
-					DeselectTerritories();
-					SetArmies();
-					SetActivePlayer();
-					m_menuLogic.SetNotification("Player "+m_playerIndex+" turn.");
-					if(GameSetupCheck())
-					{
-						SetGamePhaseIndex(2);
-					}
-									//m_menuLogic.SetPhaseIcon();
-					StartCoroutine("AutoAdvanceTurn",0.5f);
-				break;
-			}
-			m_turnOrder = IncreaseValue(m_turnOrder, 4);
-		}
+		
 		else if( m_gamePhase == GamePhases.EndGamePhase)
 		{
 			if(m_debug)
