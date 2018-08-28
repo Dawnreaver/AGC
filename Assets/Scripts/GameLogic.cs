@@ -79,10 +79,6 @@ public class GameLogic : MonoBehaviour
 		foreach( GameObject territory in tempTerritories)
 		{
 			BaseTile tile = territory.GetComponent<BaseTile>();
-			/*if(m_randomBoard)
-			{
-				tile.m_territoryType = GetRandomEnum<TerritoryTypes>(0,0);
-			}*/
 			tile.AdjustTerritoryMaterial();
 			tile.m_factionToken.SetActive(false);
 			tile.m_resourceToken.SetActive(false);
@@ -152,30 +148,6 @@ public class GameLogic : MonoBehaviour
 		}
 		m_playerIndex = 1; // Select random Player for start of the game? 
 	}
-// menu 
-// try to load save game
-	// deserialise save game information
-// start game
-
-// player turns
-// start turn 
-		// is the player eliminated i.e. has he no territories
-		// is the player a neutral player or not
-	// Generate Armies
-		// trade in army cards
-	// Distribute armies
-	// Attacks
-		// Combat
-	// Fortification phase
-// end turn
-// save game
-// Slect next player
-
-// end game 
-// discard save 
-
-
-// FEEDBACKFUNCTIONS
 
 // Helper functions
 	public void SetSelectedTerritory(BaseTile tile)
@@ -183,13 +155,11 @@ public class GameLogic : MonoBehaviour
 		if (m_selectedTeritorry == null || m_selectedTeritorry != tile)
 		{
 			m_selectedTeritorry = tile;
-										//m_menuLogic.EnableSelectedTerritoryPanel();
 			SetAttackableTerritories();
 		}
 		else if (m_selectedTeritorry == tile)
 		{
 			m_selectedTeritorry = null;
-										//m_menuLogic.DisableSelectedTerritoryPanel();
 			DeselectAttackableTerritories();
 			DeselectMoveableTerritories();
 		}		
@@ -200,14 +170,12 @@ public class GameLogic : MonoBehaviour
 		if (m_targetTerritory == null || m_targetTerritory != tile)
 		{
 			m_targetTerritory = tile;
-										//m_menuLogic.EnableArmySlider();
 		}
 		else if (m_targetTerritory == tile)
 		{
 			if(m_debug)
 			Debug.Log("SelectTargetTerritory called");
 			m_targetTerritory = null;
-										//m_menuLogic.DisableArmySlider();
 		}
 	}
 
@@ -216,14 +184,12 @@ public class GameLogic : MonoBehaviour
 		if (m_targetTerritory == null || m_targetTerritory != tile)
 		{	
 			m_targetTerritory = tile;
-										//m_menuLogic.EnableArmySlider();
 		}
 		else if (m_targetTerritory == tile)
 		{
 			if(m_debug)
 			Debug.Log("SelectMovementTerritory called");
 			m_targetTerritory = null;
-										//m_menuLogic.DisableArmySlider();
 		}
 	}
 
@@ -242,8 +208,6 @@ public class GameLogic : MonoBehaviour
 		if(m_debug)
 		Debug.Log("DeselectTerritories called");
 		m_targetTerritory = null;
-									//m_menuLogic.DisableSelectedTerritoryPanel();
-									//m_menuLogic.DisableTargetTerritoryPanel();
 	}
 	public void DeselectAttackableTerritories()
 	{
@@ -251,15 +215,11 @@ public class GameLogic : MonoBehaviour
 		{
 			BaseTile tile = territory.GetComponent<BaseTile>();
 			tile.m_selected = false;
-			//if( tile == m_targetTerritory)
-			//{
-				tile.SetTokenColor(tile.m_factionColor);
-			//}
+			tile.SetTokenColor(tile.m_factionColor);
 		}
 		if(m_debug)
 		Debug.Log("DeselectAttackableTerritory called");
 		m_targetTerritory = null;
-									//m_menuLogic.DisableTargetTerritoryPanel();
 	}
 	public void DeselectMoveableTerritories()
 	{
@@ -269,16 +229,12 @@ public class GameLogic : MonoBehaviour
 			if(tile != m_selectedTeritorry)
 			{
 			tile.m_selected = false;
-			//if( tile == m_targetTerritory)
-			//{
 				tile.SetTokenColor(tile.m_factionColor);
-			//}
 			}
 		}
 		if(m_debug)
 		Debug.Log("DeselectMoveableTerritory called");
 		m_targetTerritory = null;
-									//m_menuLogic.DisableTargetTerritoryPanel();
 	}
 	static T GetRandomEnum<T>(int startEnum, int maxLength)
 	{
@@ -331,7 +287,6 @@ public class GameLogic : MonoBehaviour
 					SelectPlayerTerritories();
 					m_menuLogic.SetNotification("Setup Phase");
 					m_turnOrder = 3;
-									//m_menuLogic.SetPhaseIcon();
 				break;
 
 				case 4 :
@@ -342,12 +297,9 @@ public class GameLogic : MonoBehaviour
 					m_menuLogic.SetNotification("Player "+m_playerIndex+" turn.");
 					if(GameSetupCheck())
 					{
-						m_menuLogic.SetNotification("Game Phase");
-						//m_turnOrder = 1;
-						SetGamePhaseIndex(2);
+						m_gamePhase = GamePhases.GamePhase;
 					}
-					m_menuLogic.SetPhaseIcon();
-					//StartCoroutine("AutoAdvanceTurn",0.5f);
+					StartCoroutine("AutoAdvanceTurn",0.5f);
 				break;
 			}
 			m_turnOrder = IncreaseValue(m_turnOrder, 4);
@@ -358,13 +310,9 @@ public class GameLogic : MonoBehaviour
 			{
 				case 1 :
 					SelectPlayerTerritories();
-
-						m_factionList[m_playerIndex-1].m_availableArmies = RecruitArmies();
-
-					
+					m_factionList[m_playerIndex-1].m_availableArmies = RecruitArmies();
 					m_menuLogic.SetNotification("Recruitment Phase");
 					m_turnPhase = TurnPhases.Recruitment;
-									//m_menuLogic.SetPhaseIcon();
 				break;
 
 				case 2 : 
@@ -372,14 +320,12 @@ public class GameLogic : MonoBehaviour
 					SetArmies();
 					DeselectTerritories();
 					m_turnPhase = TurnPhases.Attack;
-									//m_menuLogic.SetPhaseIcon();
 				break;
 
 				case 3 :
 					m_menuLogic.SetNotification("Movement Phase");
 					DeselectTerritories();
 					m_turnPhase = TurnPhases.Movement;
-									//m_menuLogic.SetPhaseIcon();
 				break;
 
 				case 4 :
@@ -387,18 +333,15 @@ public class GameLogic : MonoBehaviour
 					SetActivePlayer();
 					if(m_factionList[m_playerIndex-1].m_isDefeated ==1) // if the new player is defeated, loop back 
 					{
-						//Debug.Log("Skipping Player "+ m_playerIndex);
 						m_turnPhase = TurnPhases.Movement;
 						AdvanceTurnOrder();
 						return; // without the return, the else appears to be performed too, leading to skipping a phase e.g. recruitment
 					}
 					else
 					{
-						//Debug.Log("Player "+ m_playerIndex+" is still in game");
 						m_menuLogic.SetNotification("Player "+m_playerIndex+" turn.");
 						StartCoroutine("AutoAdvanceTurn",0.5f);
 						m_turnPhase = TurnPhases.Idle;
-									//m_menuLogic.SetPhaseIcon();
 					}
 				break;
 			}
@@ -417,14 +360,7 @@ public class GameLogic : MonoBehaviour
 	{
 		for (int p = 0; p< m_factions; p++)
 		{
-			//GameObject player = Instantiate(m_playerPrefab,Vector3.zero,Quaternion.identity);
-			//player.transform.parent = gameObject.transform;
-			//player.name = "Player "+(p+1);
-			//BasePlayer basePlayer = player.GetComponent<BasePlayer>();
 			m_factionList[p].m_availableArmies = m_startArmySize;
-			//basePlayer.m_playerIndex = p+1; // there is no playerindex 0
-			//basePlayer.m_factionColor = m_factionMaterials[p].color;
-			//m_factionList.Add(basePlayer);
 		}
 	}
 
@@ -558,7 +494,6 @@ public class GameLogic : MonoBehaviour
 		if(m_debug)
 		Debug.Log("Setting Up Game");
 		InitialisePlayers();
-		//GenerateBoard();
 		DistributeTerritories();
 		if(m_randomlyPlaceArmies)
 		{
@@ -566,16 +501,13 @@ public class GameLogic : MonoBehaviour
 			m_turnPhase = TurnPhases.Recruitment;
 			m_gamePhase = GamePhases.GamePhase;
 		}
-		else{
-		m_turnPhase = TurnPhases.Recruitment;
-		m_gamePhase = GamePhases.SetupPhase;
+		else
+		{
+			m_turnPhase = TurnPhases.Recruitment;
+			m_gamePhase = GamePhases.SetupPhase;
 		}
 		m_menuLogic.SetNotification("Player "+m_playerIndex+" turn.");
-		//m_availableArmies = RecruitArmies();
-		// choose a random start player
 		m_playerIndex = Random.Range(1, m_factions+1);
-		//Debug.Log("PI: "+m_playerIndex);
-								//m_menuLogic.SetPhaseIcon();
 	}
 
 	bool GameSetupCheck()
@@ -663,7 +595,6 @@ public class GameLogic : MonoBehaviour
 				{
 					break;
 				}
-									//m_menuLogic.SetArmySlider();
 			}
 			else if(attackRoll <= defendRoll)
 			{
@@ -672,7 +603,6 @@ public class GameLogic : MonoBehaviour
 				{
 					break;
 				}
-									//m_menuLogic.SetArmySlider();
 			}
 			attackRoll = 0;
 			defendRoll = 0;
@@ -691,9 +621,7 @@ public class GameLogic : MonoBehaviour
 			if(IsPlayerDefeated(defenderPlayerID))
 			{
 				m_menuLogic.m_uiNotification.text = "Player "+defenderPlayerID+" was vanquished.";
-				//Debug.Log("Player "+defenderPlayerID+" was defeated.");
 				m_factionList[defenderPlayerID-1].m_isDefeated = 1;//Set the player to defeated
-				//m_factionList.RemoveAt(defenderPlayerID-1);
 				
 				//######
 				// if the defeated faction was my own player 
@@ -722,7 +650,6 @@ public class GameLogic : MonoBehaviour
 		{
 			if(m_debug)
 			Debug.Log("Attack failed!");
-								//m_menuLogic.SetArmySlider();
 			if(m_selectedTeritorry.m_armyCount == 1)
 			{
 				//m_menuLogic.DisableArmySlider();
@@ -749,7 +676,6 @@ public class GameLogic : MonoBehaviour
 	public void PrepareNextAttack()
 	{
 		DeselectTerritories();
-				//m_menuLogic.DisableArmySlider();
 		DeselectAttackableTerritories();
 	}
 	// check if the player was defeated
