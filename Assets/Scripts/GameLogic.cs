@@ -342,9 +342,11 @@ public class GameLogic : MonoBehaviour
 					m_menuLogic.SetNotification("Player "+m_playerIndex+" turn.");
 					if(GameSetupCheck())
 					{
+						m_menuLogic.SetNotification("Game Phase");
+						//m_turnOrder = 1;
 						SetGamePhaseIndex(2);
 					}
-									//m_menuLogic.SetPhaseIcon();
+					m_menuLogic.SetPhaseIcon();
 					//StartCoroutine("AutoAdvanceTurn",0.5f);
 				break;
 			}
