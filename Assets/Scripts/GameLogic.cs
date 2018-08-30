@@ -361,6 +361,10 @@ public class GameLogic : MonoBehaviour
 		for (int p = 0; p< m_factions; p++)
 		{
 			m_factionList[p].m_availableArmies = m_startArmySize;
+			if(m_factionList[p].m_isAiControlled)
+			{
+				m_factionList[p].gameObject.GetComponent<AIAgent>().InitialzeVisualisation();
+			}
 		}
 	}
 
