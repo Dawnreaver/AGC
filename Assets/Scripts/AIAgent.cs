@@ -9,8 +9,6 @@ public class AIAgent : MonoBehaviour
 	public bool m_aiDebug;
 
 	public bool m_aiVisualization = false;
-	public GameObject m_aiVisualizationPrefab;
-	public List<GameObject> m_aiVizualisationSquares = new List<GameObject>();
 	public List<Color> m_aiVisualizationColours = new List<Color>();
 
 
@@ -266,14 +264,6 @@ public class AIAgent : MonoBehaviour
 		{
 			int territories = 16;
 			Debug.Log("Here");
-			for( int a = 0; a < territories; a++)
-			{
-				GameObject vizSquare = Instantiate(m_aiVisualizationPrefab, new Vector3(m_gameLogic.m_territories[a].transform.position.x,1.75f,m_gameLogic.m_territories[a].transform.position.z), Quaternion.identity) as GameObject;
-				vizSquare.transform.SetParent(this.gameObject.transform);
-				
-				m_aiVizualisationSquares.Add(vizSquare);
-				vizSquare.SetActive(false);
-			}
 		}
 	}
 	

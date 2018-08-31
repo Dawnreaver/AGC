@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 public enum TerritoryTypes {Land, Water}
 public enum ResourceTypes {Fish, Empty, Grain, Wine, Armor, Helmet, Weapon, Gold}
@@ -67,6 +68,10 @@ public class GameLogic : MonoBehaviour
 
 	public PlayerTurn m_playerTurn; 
 
+	// Ai visualization
+	public GameObject m_aiVisualizationPrefab;
+	public List<GameObject> m_aiVizualisationSquares = new List<GameObject>();
+
 	// game options
 	private void Awake()
 	{
@@ -104,6 +109,9 @@ public class GameLogic : MonoBehaviour
 			territories.Add(tile.gameObject);
 		}
 		m_assignableTerritories = territories;
+		m_assignableTerritories = m_assignableTerritories.OrderBy(terrtile => terrtile.name).ToList();
+	
+		PrepareVisualization(m_assignableTerritories);
 		
 		for (int r = 0; r < m_numberOfRandomResources; r++)
 		{
@@ -798,5 +806,18 @@ public class GameLogic : MonoBehaviour
 				player.m_diceModifier = 3;
 			}
 		}
+	}
+
+	void PrepareVisualization(List<GameObject> territories)
+	{
+			for( int a = 0; a < territories.Count; a++)
+			{
+				GameObject vizSquare = Instantiate(m_aiVisualizationPrefab, transform.position, Quaternion.identity) as GameObject;
+				vizSquare.transform.SetParent(this.gameObject.transform);
+				vizSquare.transform.position = new Vector3(territories[a].transform.localPosition.x,territories[a].transform.localPosition.y+0.75f,territories[a].transform.localPosition.z);
+				m_aiVizualisationSquares.Add(vizSquare);
+				vizSquare.SetActive(false);
+				vizSquare.name = "vizSquare - "+territories[a].name;
+			}
 	}
 }
