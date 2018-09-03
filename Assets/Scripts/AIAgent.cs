@@ -9,6 +9,7 @@ public class AIAgent : MonoBehaviour
 	public bool m_aiDebug;
 
 	public bool m_aiVisualization = false;
+	private List<int> m_aiPriorities = new List<int>();
 	public List<Color> m_aiVisualizationColours = new List<Color>();
 
 
@@ -262,11 +263,25 @@ public class AIAgent : MonoBehaviour
 	{
 		if(m_aiVisualization)
 		{
-			int territories = 16;
-			Debug.Log("Here");
+			for( int a = 0; a < m_gameLogic.m_assignableTerritories.Count; a++)
+			{
+				// fill the priorities list with 0, so they can be assigned prioities from 1 - 6
+				m_aiPriorities.Add(0);
+			}
+			
+			SetVisualizationColour();
 		}
 	}
 	
+	public void SetVisualizationColour()
+	{
+		for( int b = 0; b < m_gameLogic.m_assignableTerritories.Count; b++)
+		{
+			GameObject square = m_gameLogic.m_aiVizualisationSquares[b];
+			square.SetActive(true);
+			m_gameLogic.m_aiVizualisationSquares[b].GetComponent<Renderer>().material.color = m_aiVisualizationColours[m_aiPriorities[b]];
+		}
+	}
 	/*
 
 	Ai Actions 

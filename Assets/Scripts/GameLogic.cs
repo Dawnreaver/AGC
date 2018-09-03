@@ -71,6 +71,7 @@ public class GameLogic : MonoBehaviour
 	// Ai visualization
 	public GameObject m_aiVisualizationPrefab;
 	public List<GameObject> m_aiVizualisationSquares = new List<GameObject>();
+	public Hashtable m_aiVisualizationHt = new Hashtable();
 
 	// game options
 	private void Awake()
@@ -818,6 +819,7 @@ public class GameLogic : MonoBehaviour
 				m_aiVizualisationSquares.Add(vizSquare);
 				vizSquare.SetActive(false);
 				vizSquare.name = "vizSquare - "+territories[a].name;
+				m_aiVisualizationHt.Add(territories[a], vizSquare);
 			}
 	}
 }
