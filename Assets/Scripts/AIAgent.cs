@@ -9,7 +9,7 @@ public class AIAgent : MonoBehaviour
 	public bool m_aiDebug;
 
 	public bool m_aiVisualization = false;
-	private List<int> m_aiPriorities = new List<int>();
+	public List<int> m_aiPriorities = new List<int>();
 	public List<Color> m_aiVisualizationColours = new List<Color>();
 
 
@@ -70,6 +70,7 @@ public class AIAgent : MonoBehaviour
 			case AiAgentStates.AiRecruiting :
 				if(m_notBusy)
 				{
+					SetTerritoryPriority();
 					// Is the recruitment in the Setup phase
 					if(m_gameLogic.m_gamePhase == GamePhases.SetupPhase)
 					{
@@ -257,6 +258,29 @@ public class AIAgent : MonoBehaviour
 		m_actionTimer = m_actionTimerMax;
 	}
 
+	public void SetTerritoryPriority()
+	{
+		for ( int t = 0; t < m_gameLogic.m_playerTerritories.Count; t++)
+		{
+			int priority = 0;
+
+			if(TerritoryHasResource(m_gameLogic.m_playerTerritories[t].GetComponent<BaseTile>()))
+			{
+				Debug.Log("has resource");
+				priority++;
+			}
+			if(TerritoryIsThreatenedByEnemies(m_gameLogic.m_playerTerritories[t].GetComponent<BaseTile>()))
+			{
+				Debug.Log("is threatened");
+				priority++;
+			}
+			Debug.Log("Priority for territory: "+ priority);
+			m_aiPriorities[t] = priority;
+		}
+		SetVisualizationColour();
+		Debug.LogError("Visualization complete");
+	}
+
 	// Ai vizualisation 
 
 	public void InitialzeVisualisation()
@@ -275,12 +299,50 @@ public class AIAgent : MonoBehaviour
 	
 	public void SetVisualizationColour()
 	{
-		for( int b = 0; b < m_gameLogic.m_assignableTerritories.Count; b++)
+		for( int b = 0; b < m_gameLogic.m_territories.Count; b++)
 		{
 			GameObject square = m_gameLogic.m_aiVizualisationSquares[b];
 			square.SetActive(true);
 			m_gameLogic.m_aiVizualisationSquares[b].GetComponent<Renderer>().material.color = m_aiVisualizationColours[m_aiPriorities[b]];
 		}
+	}
+
+	// priority tests
+
+	bool TerritoryHasResource(BaseTile territory)
+	{
+		bool resource = false;
+
+		if( territory.m_resource1 != ResourceTypes.Empty)
+		{
+			resource = true;
+		}
+
+		return resource;
+	}
+	
+	bool TerritoryIsThreatenedByEnemies( BaseTile territory)
+	{
+		bool threatened = false;
+
+		m_gameLogic.m_attackableTerritories.Clear();
+		
+		for( int a = 0; a < m_gameLogic.m_territories.Count; a++)
+		{
+			if(m_gameLogic.m_territories[a].GetComponent<BaseTile>().m_playerId != m_gameLogic.m_playerIndex)
+			{
+				if(Vector3.Distance(territory.gameObject.transform.position, m_gameLogic.m_territories[a].transform.position) <= m_gameLogic.m_attackReach)
+				{
+					m_gameLogic.m_attackableTerritories.Add(m_gameLogic.m_territories[a]);
+				}
+			}
+		}
+
+		if( m_gameLogic.m_attackableTerritories.Count > 0)
+		{
+			threatened = true;
+		}
+		return threatened; 
 	}
 	/*
 

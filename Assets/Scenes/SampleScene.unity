@@ -6286,8 +6286,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_aiDebug: 0
   m_aiVisualization: 1
+  m_aiPriorities: 
   m_aiVisualizationColours:
-  - {r: 0.4009434, g: 0.5393653, b: 1, a: 0.5882353}
+  - {r: 1, g: 1, b: 1, a: 0.5882353}
   - {r: 0, g: 0.7883396, b: 1, a: 0.5882353}
   - {r: 0.0014921427, g: 1, b: 0, a: 0.5882353}
   - {r: 0.96933126, g: 1, b: 0, a: 0.5882353}

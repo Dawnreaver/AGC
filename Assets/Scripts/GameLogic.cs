@@ -426,6 +426,7 @@ public class GameLogic : MonoBehaviour
 			}
 		}
 	}
+
 	// Army functions
 	public void AddArmies()
     {
